@@ -1,63 +1,3 @@
-;; declare variables
-tmp_path=d:\tmp    ;;; autohotkey 可以事先定义一些变量
-polyworks_path=C:\Program Files\InnovMetric\PolyWorks MS 2020\bin\polyworks.exe
-eamcs_path=D:\Dev_Tools\emacs-28.0.50\bin\runemacs.exe
-home=c:\home
-appdata=C:\Users\Aqua\AppData\Roaming
-
-#n::Run Notepad
-
-;#g::Run "D:\Dev_Tools\emacs-28.0.50\bin\runemacs.exe"
-
-#w::WinMaximize,A
-
-;;;  start emacs
-#g::   ;; 
-    ifWinExist,ahk_class emacs::MainFrame_0   ;;;判断xshell 进程是否启动
-        winActivate   ;;; 激活窗口
-    else
-        run %eamcs_path%
-return
-
-::/rime::
-	run  %appdata%\Rime
-return
-
-::/home::
-run %home% 
-return
-
-
-;; 通过Ctrl+c 启动命令窗口，打开指定应用
-!c::
-    inputBox,command,enter command
-    if ErrorLevel
-        return
-    else
-        if (command=="tmp")
-            run %tmp_path%   ;;;打开指定文件夹 用两个百分号%%包围说明这是一个变量
-        else if (command=="baidu")
-            run https://www.baidu.com  ;;; 快速打开百度
-        else if (command=="c" || command=="d")
-            run %command%:/   ;;快速打开这些盘
-        else if (command=="emacs")
-            run %emacs_path%     ;;快速打开emacs
-				else if (command=="pws")
-				    run %polyworks_path% ;;打开PolyWorks软件
-    return
-
-;; 获取鼠标位置的颜色值
-^!c::
-    MouseGetPos, mouseX, mouseY
-    ; 获得鼠标所在坐标，把鼠标的 X 坐标赋值给变量 mouseX ，同理 mouseY
-    PixelGetColor, color, %mouseX%, %mouseY%, RGB
-    ; 调用 PixelGetColor 函数，获得鼠标所在坐标的 RGB 值，并赋值给 color
-    StringRight color,color,6
-    ; 截取 color（第二个 color）右边的6个字符，因为获得的值是这样的：#RRGGBB，一般我们只需要 RRGGBB 部分。把截取到的值再赋给 color（第一个 color）。
-    clipboard = %color%
-    ; 把 color 的值发送到剪贴板
-return
-
 
 ;;
 ;; An autohotkey script that provides emacs-like keybinding on Windows
@@ -72,34 +12,22 @@ SetKeyDelay 0
 is_pre_x = 0
 ; turns to be 1 when ctrl-space is pressed
 is_pre_spc = 0
+; turns to be 1 when Ctrl-z is pressed
+is_pre_z = 0
 
 ; Applications you want to disable emacs-like keybindings
 ; (Please comment out applications you don't use)
 is_target()
 {
-  IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
-    Return 1 
-  IfWinActive,ahk_class MEADOW ; Meadow
-    Return 1 
   IfWinActive,ahk_class cygwin/x X rl-xterm-XTerm-0
-    Return 1
-  IfWinActive,ahk_class MozillaUIWindowClass ; keysnail on Firefox
     Return 1
   ; Avoid VMwareUnity with AutoHotkey
   IfWinActive,ahk_class VMwareUnityHostWndClass
     Return 1
-  IfWinActive,ahk_class Vim ; GVIM
+  IfWinActive,ahk_class Vim ; GVI
     Return 1
-;  IfWinActive,ahk_class SWT_Window0 ; Eclipse
-;    Return 1
-;   IfWinActive,ahk_class Xming X
-;     Return 1
-;   IfWinActive,ahk_class SunAwtFrame
-;     Return 1
-   IfWinActive,ahk_class Emacs ; NTEmacs
+  IfWinActive,ahk_class Emacs ; NTEmacs
      Return 1  
-;   IfWinActive,ahk_class XEmacs ; XEmacs on Cygwin
-;     Return 1
   Return 0
 }
 
@@ -109,6 +37,14 @@ delete_char()
   global is_pre_spc = 0
   Return
 }
+
+delete_word()
+{
+  Send ^{Del}
+  global is_pre_spc = 0
+  Return
+}
+
 delete_backward_char()
 {
   Send {BS}
@@ -290,6 +226,27 @@ backward_char()
     Send {Left}
   Return
 }
+
+forward_word()
+{
+  global
+  if is_pre_spc
+    Send ^+{Right}
+  Else
+    Send ^{Right}
+  Return
+}
+
+backward_word()
+{
+  global
+  if is_pre_spc
+    Send ^+{Left}
+  Else
+    Send ^{Left}
+  Return
+}
+
 scroll_up()
 {
   global
@@ -309,13 +266,73 @@ scroll_down()
   Return
 }
 
+beginning_of_buffer()
+{
+  global
+  if is_pre_z
+    send ^{Home}
+  Return
+}
+
+end_of_buffer()
+{
+  global
+  if is_pre_z
+    send ^{End}
+  Return
+}
+
+mark_whole_buffer()
+{
+    Send ^{End}^+{Home}
+    global is_pre_spc = 0
+}
+
 
 ^x::
   If is_target()
     Send %A_ThisHotkey%
   Else
     is_pre_x = 1
-  Return 
+  Return
+^z::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+    is_pre_z = 1
+  Return
+j::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+  {
+    If is_pre_z
+      {
+        end_of_buffer()
+        global is_pre_z = 0
+      }
+    Else
+      Send %A_ThisHotkey%
+  }
+  
+  Return  
+
+k::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+  {
+    If is_pre_z
+      {
+        beginning_of_buffer()
+        global is_pre_z = 0
+      }
+    Else
+      Send %A_ThisHotkey%
+  }
+  Return  
+
+
 ^f::
   If is_target()
     Send %A_ThisHotkey%
@@ -326,7 +343,22 @@ scroll_down()
     Else
       forward_char()
   }
-  Return  
+  Return
+
+!f::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+   forward_word()
+  Return
+
+!b::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+   backward_word()
+  Return
+
 ^c::
   If is_target()
     Send %A_ThisHotkey%
@@ -342,6 +374,13 @@ scroll_down()
   Else
     delete_char()
   Return
+!d::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+    delete_word()
+  Return
+  
 ^h::
   If is_target()
     Send %A_ThisHotkey%
@@ -505,4 +544,56 @@ scroll_down()
   Else
     scroll_up()
   Return
+;;text scale increase
+#=::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+    Send ^{WheelUp}
+  Return
+;;text scale decrease
+#-::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+    Send ^{WheelDown}
+  Return
+;; close app
+F5::
+  If is_target()
+    Send {F5}
+  Else
+    kill_emacs()
+  Return
+;; maximize and restore window  
+F11::
+  If is_target()
+    Send {F11}
+  Else
+  WinGetActiveStats, Title, Width, Height, X, Y
+
+    If  x < 0
+       WinRestore,A
+    Else
+       WinMaximize,A
+  Return
+
+
+h::
+  If is_target()
+    Send %A_ThisHotkey%
+  Else
+  {
+    If is_pre_x
+      {
+        mark_whole_buffer()
+        global is_pre_z = 0
+      }
+    Else
+      Send %A_ThisHotkey%
+  }
+  
+
+
+  
 
