@@ -411,6 +411,13 @@ k::
    Else
      newline_emacs()
    Return
+
+^j::
+   If is_target()
+     Send %A_ThisHotkey%
+   Else
+     newline_and_indent()
+   Return   
 ^m::
   If is_target()
     Send %A_ThisHotkey%

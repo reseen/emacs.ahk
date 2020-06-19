@@ -60,6 +60,10 @@ This tiny script allows you to use the emacs-like key bindings on Windows, which
 <td>newline-and-indent</td>
 </tr>
 <tr>
+<td>C-l</td>
+<td>newline-emacs</td>
+</tr>
+<tr>
 <td>C-m</td>
 <td>newline</td>
 </tr>
