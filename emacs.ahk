@@ -577,12 +577,13 @@ F11::
   If is_target()
     Send {F11}
   Else
-  WinGetActiveStats, Title, Width, Height, X, Y
-
-    If  x < 0
+  {
+    WinGetActiveStats, Title, Width, Height, X, Y
+    If  x < -5
        WinRestore,A
     Else
        WinMaximize,A
+  }
   Return
 
 
@@ -594,7 +595,7 @@ h::
     If is_pre_x
       {
         mark_whole_buffer()
-        global is_pre_z = 0
+        global is_pre_x = 0
       }
     Else
       Send %A_ThisHotkey%
