@@ -49,7 +49,7 @@ This tiny script allows you to use the emacs-like key bindings on Windows, which
 </tr>
 <tr>
 <td>C-o</td>
-<td>open-line</td>
+<td>open-line-emacs</td>
 </tr>
 <tr>
 <td>C-g</td>
@@ -68,7 +68,7 @@ This tiny script allows you to use the emacs-like key bindings on Windows, which
 <td>newline_emacs</td>
 </tr>
 <tr>
-<td>Meta-i</td>
+<td>M-i</td>
 <td>indent-for-tab-command</td>
 </tr>
 <tr>
@@ -175,4 +175,3 @@ use Capslock key for input method switch, and hold the Capslock key for switchin
 
 # Other useful functions
 windows.ahk include some useful fictions for handling windows system more efficient.
-
