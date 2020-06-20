@@ -1,9 +1,10 @@
 ;; declare variables
 tmp_path=d:\tmp    ;;; autohotkey 可以事先定义一些变量
 polyworks_path=C:\Program Files\InnovMetric\PolyWorks MS 2020\bin\polyworks.exe
-eamcs_path=D:\Dev_Tools\emacs-28.0.50\bin\runemacs.exe
-home=c:\home
+emacs_path=C:\Users\Aqua\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Gnu Emacs\Emacs
+home_path=c:\home\
 appdata=C:\Users\Aqua\AppData\Roaming
+ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
 
 #n::Run Notepad
 
@@ -15,16 +16,8 @@ appdata=C:\Users\Aqua\AppData\Roaming
     ifWinExist,ahk_class emacs::MainFrame_0   ;;;判断xshell 进程是否启动
         winActivate   ;;; 激活窗口
     else
-        run %eamcs_path%
-return
-
-::/rime::
-	run  %appdata%\Rime
-return
-
-::/home::
-run %home% 
-return
+        run %emacs_path%
+   return
 
 
 ;; 通过Alt+c 启动命令窗口，打开指定应用
@@ -39,10 +32,22 @@ return
             run https://www.baidu.com  ;;; 快速打开百度
         else if (command=="c" || command=="d")
             run %command%:/   ;;快速打开这些盘
-        else if (command=="emacs")
-            run %emacs_path%     ;;快速打开emacs
-				else if (command=="pws")
-				    run %polyworks_path% ;;打开PolyWorks软件
+        else if (command=="emacs")      
+            run %emacs_path%    ;;快速打开emacs
+		else if (command=="pws")
+		    run %polyworks_path% ;;打开PolyWorks软件
+		else if (command=="rime")
+		    run %appdata%\rime ;;打开Rime config path
+		else if (command=="ahk")
+		    run %ahk_path% ;;打开ahk路径
+        else if (command=="home")
+		    run %home_path% ;;打开home路径
+		else if (command=="lazy")
+		    run %home_path%\lazycat-emacs\site-lisp ;;打开emacs config路径
+		else if (command=="soft")
+		    run d:/软件 ;;打开软件目录路径
+		else if (command=="work")
+		    run d:/work ;;打开work目录路径
     return
 
 ;; 获取鼠标位置的颜色值
