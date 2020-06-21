@@ -2,7 +2,7 @@
 SetStoreCapslockMode, off
 Capslock::
 	KeyWait, CapsLock
-	If (A_TimeSinceThisHotkey > 300)
+	If (A_TimeSinceThisHotkey > 200)
 		SetTimer, mainp, -1
 	Else
 	{
