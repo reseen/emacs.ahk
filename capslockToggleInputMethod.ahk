@@ -5,7 +5,12 @@ Capslock::
 	If (A_TimeSinceThisHotkey > 300)
 		SetTimer, mainp, -1
 	Else
-		Send #{Space}
+	{
+	   IfWinActive,ahk_class Emacs ; NTEmacs
+	     Send ^{\}
+	   Else
+		 Send #{Space}
+	}
 Return
 
 mainp:
