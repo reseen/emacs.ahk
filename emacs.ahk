@@ -19,10 +19,14 @@ is_pre_z = 0
 ; (Please comment out applications you don't use)
 is_target()
 {
-  IfWinActive,ahk_class cygwin/x X rl-xterm-XTerm-0
-    Return 1
+  IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
+    Return 1 
+  ;;IfWinActive,ahk_class cygwin/x X rl-xterm-XTerm-0
+  ;; Return 1
   ; Avoid VMwareUnity with AutoHotkey
   IfWinActive,ahk_class VMwareUnityHostWndClass
+    Return 1
+  IfWinActive,ahk_class mintty
     Return 1
   IfWinActive,ahk_class Vim ; GVI
     Return 1
@@ -30,6 +34,7 @@ is_target()
      Return 1  
   Return 0
 }
+
 
 delete_char()
 {

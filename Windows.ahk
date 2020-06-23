@@ -43,7 +43,9 @@ ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
         else if (command=="home")
 		    run %home_path% ;;打开home路径
 		else if (command=="lazy")
-		    run %home_path%\lazycat-emacs\site-lisp ;;打开emacs config路径
+		    run %home_path%\lazycat-emacs\site-lisp ;;打开lazycat-emacs config路径
+		else if (command=="aqua")
+		    run %home_path%\Aquaemacs ;;打开my emacs config路径
 		else if (command=="soft")
 		    run d:/软件 ;;打开软件目录路径
 		else if (command=="work")
