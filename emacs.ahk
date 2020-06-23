@@ -28,6 +28,10 @@ is_target()
     Return 1
   IfWinActive,ahk_class mintty
     Return 1
+  IfWinActive,ahk_class Window Class
+    Return 1
+  IfWinActive,ahk_class CASCADIA_HOSTING_WINDOW_CLASS ;Windows 10 terminal
+    Return 1
   IfWinActive,ahk_class Vim ; GVI
     Return 1
   IfWinActive,ahk_class Emacs ; NTEmacs
