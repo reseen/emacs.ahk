@@ -2,7 +2,7 @@
 tmp_path=d:\tmp    ;;; autohotkey 可以事先定义一些变量
 polyworks_path=C:\Program Files\InnovMetric\PolyWorks MS 2020\bin\polyworks.exe
 emacs_path=C:\Users\Aqua\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Gnu Emacs\Emacs
-home_path=c:\home\
+home_path=c:\Users\Aqua
 appdata=C:\Users\Aqua\AppData\Roaming
 ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
 Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
