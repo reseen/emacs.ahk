@@ -5,6 +5,7 @@ emacs_path=C:\Users\Aqua\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\G
 home_path=c:\home\
 appdata=C:\Users\Aqua\AppData\Roaming
 ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
+Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
 
 #n::Run Notepad
 
@@ -32,6 +33,8 @@ ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
             run https://www.baidu.com  ;;; 快速打开百度
         else if (command=="c" || command=="d")
             run %command%:/   ;;快速打开这些盘
+        else if (command=="winterm")
+		    run %Windows_terminal% ;;打开work目录路径
         else if (command=="emacs")      
             run %emacs_path%    ;;快速打开emacs
 		else if (command=="pws")
