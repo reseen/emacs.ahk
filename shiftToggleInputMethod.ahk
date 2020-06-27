@@ -2,7 +2,8 @@
 
 Shift::
 	   IfWinActive,ahk_class Emacs ; NTEmacs
-	     Send ^{\}
+	     ;;Send ^{\}
+	     Send ^{Space}
 	   Else
 		 Send #{Space}
 Return
