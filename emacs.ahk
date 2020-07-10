@@ -21,6 +21,8 @@ is_target()
 {
     IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
         Return 1
+IfWinActive,ahk_exe Code.exe ;vscode
+    Return 1
 IfWinActive,ahk_class VMwareUnityHostWndClass ; Avoid VMwareUnity with AutoHotkey
     Return 1
 IfWinActive,ahk_class mintty
@@ -609,21 +611,21 @@ Else
 Return
 
 
-Lwin::
-IfWinActive,ahk_class Emacs
-{
-    Send ^x
-    Sleep 100
-    Send % "@s"
-    KeyWait, Lwin
-}
-else
-{
-    Send {Lwin down}
-    KeyWait, Lwin
-    send {Lwin up}
-}
-Return
+; Lwin::
+; IfWinActive,ahk_class Emacs
+; {
+;     Send ^x
+;     Sleep 100
+;     Send % "@s"
+;     KeyWait, Lwin
+; }
+; else
+; {
+;     Send {Lwin down}
+;     KeyWait, Lwin
+;     send {Lwin up}
+; }
+; Return
 
 ;; 在任务栏上滚动鼠标来调节音量.
 #If MouseIsOver("ahk_class Shell_TrayWnd")
