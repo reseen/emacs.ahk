@@ -627,6 +627,22 @@ else
 }
 Return
 
+*Rwin::
+IfWinActive,ahk_class Emacs
+{
+    Send ^x
+    Sleep 100
+    Send % "@s"
+    KeyWait, Rwin
+}
+else
+{
+    Send {Rwin down}
+    KeyWait, Rwin
+    send {Rwin up}
+}
+Return
+
 ;; 在任务栏上滚动鼠标来调节音量.
 #If MouseIsOver("ahk_class Shell_TrayWnd")
 WheelUp::Send {Volume_Up}
