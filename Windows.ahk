@@ -7,13 +7,14 @@ appdata=C:\Users\Aqua\AppData\Roaming
 ahk_path=D:\dev_tools\AutoHotKey\emacs.ahk
 Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
 
+^f6::reload
 #n::Run Notepad
 
 ;#g::Run "D:\Dev_Tools\emacs-28.0.50\bin\runemacs.exe"
 
 
 ;;;  start emacs
-#g::   ;; 
+#g::   ;;
     ifWinExist,ahk_class emacs::MainFrame_0   ;;;判断xshell 进程是否启动
         winActivate   ;;; 激活窗口
     else
@@ -35,7 +36,7 @@ Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_
             run %command%:/   ;;快速打开这些盘
         else if (command=="winterm")
 		    run %Windows_terminal% ;;打开work目录路径
-        else if (command=="emacs")      
+        else if (command=="emacs")
             run %emacs_path%    ;;快速打开emacs
 		else if (command=="pws")
 		    run %polyworks_path% ;;打开PolyWorks软件
