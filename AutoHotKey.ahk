@@ -3,4 +3,4 @@
 #include shiftToggleInputMethod.ahk
 #include emacs.ahk
 #include winsuper.ahk
-#include toolkit.ahk
+; #include toolkit.ahk
