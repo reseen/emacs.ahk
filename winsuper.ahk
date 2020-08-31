@@ -2,7 +2,7 @@
 IfWinActive,ahk_class Emacs
 {
     Send ^x
-    Sleep 150
+    Sleep 200
     Send % "@s"
     KeyWait, Lwin
 }
@@ -18,7 +18,7 @@ Return
 IfWinActive,ahk_class Emacs
 {
     Send ^x
-    Sleep 150
+    Sleep 200
     Send % "@s"
     KeyWait, Rwin
 }
