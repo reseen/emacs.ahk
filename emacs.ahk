@@ -38,6 +38,12 @@ IfWinActive,ahk_class Emacs ; NTEmacs
 Return 0
 }
 
+is_smatraPDF()
+{
+    IfWinActive,ahk_class SUMATRA_PDF_FRAME ; smatraPDF
+        Return 1
+Return 0
+}
 
 delete_char()
 {
@@ -379,6 +385,11 @@ Return
 ^d::
 If is_target()
     Send %A_ThisHotkey%
+Else If is_smatraPDF()
+{
+    Send ^b
+}
+
 Else
     delete_char()
 Return
@@ -414,7 +425,7 @@ Else
     quit()
 Return
 ^l::
-If is_target()
+If (is_target() || is_smatraPDF())
     Send %A_ThisHotkey%
 Else
     newline_emacs()
@@ -463,7 +474,7 @@ Else
     isearch_backward()
 Return
 ^w::
-If is_target()
+If (is_target() || is_smatraPDF())
     Send %A_ThisHotkey%
 Else
     kill_region()
@@ -609,5 +620,3 @@ Else
         Send %A_ThisHotkey%
 }
 Return
-
-
