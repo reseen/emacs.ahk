@@ -23,7 +23,7 @@ Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_
 
 
 ;; 通过Alt+c 启动命令窗口，打开指定应用
-!c::
+!f9::
     inputBox,command,enter command
     if ErrorLevel
         return
@@ -67,4 +67,3 @@ Windows_terminal=C:\Users\Aqua\AppData\Local\Packages\Microsoft.WindowsTerminal_
     clipboard = %color%
     ; 把 color 的值发送到剪贴板
 return
-
