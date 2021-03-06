@@ -35,6 +35,8 @@ IfWinActive,ahk_class Vim ; GVI
     Return 1
 IfWinActive,ahk_class Emacs ; NTEmacs
     Return 1
+IfWinActive,ahk_class X410_XAppWin
+    Return 1
 Return 0
 }
 
