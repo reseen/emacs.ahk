@@ -586,13 +586,7 @@ If is_target()
 Else
     Send ^{WheelDown}
     Return
-;; close app
-F5::
-If is_target()
-    Send {F5}
-Else
-    kill_emacs()
-Return
+
 ;; maximize and restore window
 F11::
 If is_target()
