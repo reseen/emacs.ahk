@@ -19,10 +19,12 @@ is_pre_z = 0
 ; (Please comment out applications you don't use)
 is_target()
 {
-    IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
-        Return 1
+IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
+    Return 1
 IfWinActive,ahk_exe Code.exe ;vscode
     Return 1
+IfWinActive,ahk_exe devenv.exe ;visual studio
+    Return 1    
 IfWinActive,ahk_class VMwareUnityHostWndClass ; Avoid VMwareUnity with AutoHotkey
     Return 1
 IfWinActive,ahk_class mintty
