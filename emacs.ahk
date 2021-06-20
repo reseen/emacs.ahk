@@ -14,6 +14,8 @@ is_pre_x = 0
 is_pre_spc = 0
 ; turns to be 1 when Ctrl-z is pressed
 is_pre_z = 0
+; turns to be 1 when Ctrl-c is pressed
+is_pre_c = 0
 
 ; Applications you want to disable emacs-like keybindings
 ; (Please comment out applications you don't use)
@@ -22,9 +24,7 @@ is_target()
 IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
     Return 1
 IfWinActive,ahk_exe Code.exe ;vscode
-    Return 1
-IfWinActive,ahk_exe devenv.exe ;visual studio
-    Return 1    
+    Return 1   
 IfWinActive,ahk_class VMwareUnityHostWndClass ; Avoid VMwareUnity with AutoHotkey
     Return 1
 IfWinActive,ahk_class mintty
@@ -99,6 +99,13 @@ quit()
 newline()
 {
     Send {Enter}
+    global is_pre_spc = 0
+    Return
+}
+
+duplicate_line()
+{
+    Send ^d
     global is_pre_spc = 0
     Return
 }
@@ -313,6 +320,7 @@ If is_target()
 Else
     is_pre_x = 1
 Return
+
 ^z::
 If is_target()
     Send %A_ThisHotkey%
@@ -384,8 +392,11 @@ Else
 {
     If is_pre_x
         kill_emacs()
+    Else
+        is_pre_c = 1    
 }
 Return
+
 ^d::
 If is_target()
     Send %A_ThisHotkey%
@@ -613,6 +624,22 @@ Else
     {
         mark_whole_buffer()
         global is_pre_x = 0
+    }
+    Else
+        Send %A_ThisHotkey%
+}
+Return
+
+d::
+If is_target()
+    Send %A_ThisHotkey%
+Else
+{
+    If is_pre_c
+    {
+        duplicate_line()
+        next_line()
+        global is_pre_c = 0
     }
     Else
         Send %A_ThisHotkey%
