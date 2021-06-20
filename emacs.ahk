@@ -661,3 +661,22 @@ If is_target()
 Else
     Send ^{-}
 Return
+
+^;::
+If is_target()
+    Send %A_ThisHotkey%
+Else
+{
+    If is_pre_x
+    {
+        Send ^{k}
+        Sleep 50
+        Send ^{/}
+        next_line()
+        global is_pre_x = 0
+    }
+    Else
+        Send %A_ThisHotkey%
+}
+Return
+
