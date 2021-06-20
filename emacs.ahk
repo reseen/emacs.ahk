@@ -661,7 +661,7 @@ If is_target()
 Else
     Send ^{-}
 Return
-
+;; 切换行注释 C-x,C-;
 ^;::
 If is_target()
     Send %A_ThisHotkey%
