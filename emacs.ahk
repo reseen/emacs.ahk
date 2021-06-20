@@ -645,3 +645,19 @@ Else
         Send %A_ThisHotkey%
 }
 Return
+
+;; For Visual Studio
+;; 转到文档 M-.
+!.::
+If is_target()
+    Send %A_ThisHotkey%
+Else
+    Send {F12}
+Return
+;; 返回上一个位置 M-,
+!,::
+If is_target()
+    Send %A_ThisHotkey%
+Else
+    Send ^{-}
+Return
