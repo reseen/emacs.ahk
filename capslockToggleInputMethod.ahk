@@ -2,7 +2,7 @@
 SetStoreCapslockMode, Off
 Capslock::
 	KeyWait, CapsLock
-	If (A_TimeSinceThisHotkey > 200)
+	If (A_TimeSinceThisHotkey > 300)
 		SetTimer, mainp, -1
 	Else
 	{
@@ -14,7 +14,7 @@ Capslock::
 	 Else
 	 {
 	   IfWinActive,ahk_class Emacs ; NTEmacs
-	     Send ^{\}
+	     Send ^{f9}
 	   Else
 		 Send #{Space}
 	 }
