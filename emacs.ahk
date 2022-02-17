@@ -12,8 +12,6 @@ SetKeyDelay 0
 is_pre_x = 0
 ; turns to be 1 when ctrl-space is pressed
 is_pre_spc = 0
-; turns to be 1 when Ctrl-z is pressed
-is_pre_z = 0
 ; turns to be 1 when Ctrl-c is pressed
 is_pre_c = 0
 
@@ -291,22 +289,6 @@ scroll_down()
         Return
 }
 
-beginning_of_buffer()
-{
-    global
-    if is_pre_z
-        send ^{Home}
-    Return
-}
-
-end_of_buffer()
-{
-    global
-    if is_pre_z
-        send ^{End}
-    Return
-}
-
 mark_whole_buffer()
 {
     Send ^{End}^+{Home}
@@ -320,44 +302,6 @@ If is_target()
 Else
     is_pre_x = 1
 Return
-
-^z::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    is_pre_z = 1
-Return
-j::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_z
-    {
-        end_of_buffer()
-        global is_pre_z = 0
-    }
-    Else
-        Send %A_ThisHotkey%
-}
-
-Return
-
-k::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_z
-    {
-        beginning_of_buffer()
-        global is_pre_z = 0
-    }
-    Else
-        Send %A_ThisHotkey%
-}
-Return
-
 
 ^f::
 If is_target()
