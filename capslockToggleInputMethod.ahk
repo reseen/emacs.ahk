@@ -16,7 +16,9 @@ Capslock::
 	   IfWinActive,ahk_class Emacs ; NTEmacs
 	     Send ^{f9}
 	   Else
-		 Send #{Space}
+		 ; Send #{Space}
+                 Send {LAlt down}{Shift down}
+                 Send {LAlt up}{Shift up}
 	 }
 	}
 Return
