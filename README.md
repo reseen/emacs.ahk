@@ -1,5 +1,5 @@
 # emacs_effidit.ahk
-该脚本为腾讯 Effidit AI 文创编辑器提供了类 Emacs 的按键绑定，使用 AutoHotKey V2 脚本编写，该脚本基于原emacs.ahk 进行修改。
+该脚本为腾讯 Effidit AI 文创编辑器提供了类 Emacs 的按键绑定，使用 AutoHotKey V2 脚本编写，脚本基于原emacs.ahk 进行修改。
 
 ## Supported keybindings
 
