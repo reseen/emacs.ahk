@@ -27,7 +27,7 @@
   <tr>
     <td>C-x C-s</td>
     <td>save-file</td>
-    <td>c-s 为原生键位，同样有效</td>
+    <td></td>
   </tr>
   <tr>
     <td>C-x C-c</td>
