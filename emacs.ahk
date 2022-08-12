@@ -1,626 +1,478 @@
-
+;; AHK v2 Script
 ;;
-;; An autohotkey script that provides emacs-like keybinding on Windows
+;; An autohotkey script that provides emacs-like keybinding on Windows Applications
 ;;
-#InstallKeybdHook
+InstallKeybdHook
 #UseHook
 
-; The following line is a contribution of NTEmacs wiki http://www49.atwiki.jp/ntemacs/pages/20.html
 SetKeyDelay 0
 
+; ----------------------------------------------------------------------------
+;  应用按键绑定
+; ----------------------------------------------------------------------------
+editor_keymap("ahk_exe Code.exe")       ; VsCode
+editor_keymap("ahk_exe Notepad3.exe")   ; Notepad3
+editor_keymap("ahk_exe Effidit.exe")    ; Effidit
+editor_keymap("ahk_exe wolai.exe")      ; 我来
+
+im_keymap("ahk_exe WeChat.exe")         ; 微信
+im_keymap("ahk_exe TIM.exe")            ; TIM
+im_keymap("ahk_exe CUClient.exe")       ; CU
+
+; ----------------------------------------------------------------------------
+;  editor 文本编辑器 按键模式
+; ----------------------------------------------------------------------------
+editor_keymap(wintext) {
+    HotIfWinActive wintext
+
+    Hotkey ">^x", hotkey_c_x                    ; C-x 基础组合键
+    Hotkey ">^c", hotkey_c_c                    ; C-c 基础组合键
+
+    Hotkey ">^g", quit                          ; quit
+    Hotkey ">^vk20", mark                       ; mark
+
+    Hotkey ">^a", move_beginning_of_line        ; 基础光标移动
+    Hotkey ">^e", move_end_of_line
+    Hotkey ">^n", next_line
+    Hotkey ">^p", previous_line
+    Hotkey ">^f", forward_char_and_find_file    ; C-x f 打开文件 / 光标右移
+    Hotkey ">^b", backward_char
+    Hotkey "<!f", forward_word
+    Hotkey "<!b", backward_word
+
+    Hotkey ">^v", scroll_down                   ; 向下滚动
+    Hotkey "<!v", scroll_up                     ; 向上滚动
+
+    Hotkey "a", move_beginning_of_buffer        ; C-x a 光标移动到最前
+    Hotkey "e", move_end_of_buffer              ; C-x e 光标移动到最后
+    Hotkey "h", mark_whole_buffer               ; C-x h 全选
+
+    Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
+    Hotkey ">^+e", mark_and_end_of_line
+    Hotkey ">^+n", mark_and_next_line
+    Hotkey ">^+p", mark_and_previous_line
+    Hotkey ">^+f", mark_and_forward_char
+    Hotkey ">^+b", mark_and_backward_char
+
+    Hotkey ">^w", kill_region                   ; 剪切
+    Hotkey "<!w", kill_ring_save                ; 复制
+    Hotkey ">^y", yank                          ; 粘贴
+
+    Hotkey ">^/", undo                          ; 撤销
+    Hotkey ">^+/", redo                         ; 重做
+
+    Hotkey ">^d", delete_char                   ; 删除
+    Hotkey "<!d", delete_word                   ; 删除 单词
+    Hotkey ">^k", kill_line                     ; 删除到行尾
+    Hotkey ">^o", open_line_up                  ; 在上方新增一行
+    Hotkey ">^l", open_line_down                ; 在下方新增一行
+    Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
+    Hotkey ">^m", new_line                      ; 换行
+
+    Hotkey ">^s", iserach_and_save_buffer       ; C-x s 保存 / 搜索
+    Hotkey ">^r", isearch_backward              ; 搜索 反向
+
+    Hotkey ">^+.", tab_switch_forward           ; 切换 Tab 栏
+    Hotkey ">^+,", tab_switch_backward          ; 切换 Tab 栏  反向
+
+    Hotkey ">^z", (ThisHotkey) => minimize_win(wintext)  ; 最小化
+}
+
+; ----------------------------------------------------------------------------
+;  im 即时通讯工具 按键绑定
+; ----------------------------------------------------------------------------
+im_keymap(wintext) {
+    HotIfWinActive wintext
+
+    Hotkey ">^x", hotkey_c_x                    ; C-x 基础组合键
+    Hotkey ">^g", quit_wechat                   ; quit
+
+    Hotkey ">^a", move_beginning_of_line        ; 基础光标移动
+    Hotkey ">^e", move_end_of_line
+    Hotkey ">^n", next_line
+    Hotkey ">^p", previous_line
+    Hotkey ">^f", forward_char
+    Hotkey ">^b", backward_char
+    Hotkey "<!f", forward_word
+    Hotkey "<!b", backward_word
+
+    Hotkey ">^v", scroll_down                   ; 向下滚动
+    Hotkey "<!v", scroll_up                     ; 向上滚动
+
+    Hotkey "a", move_beginning_of_buffer        ; C-x a 光标移动到最前
+    Hotkey "e", move_end_of_buffer              ; C-x e 光标移动到最后
+    Hotkey "h", mark_whole_buffer               ; C-x h 全选
+
+    Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
+    Hotkey ">^+e", mark_and_end_of_line
+    Hotkey ">^+n", mark_and_next_line
+    Hotkey ">^+p", mark_and_previous_line
+    Hotkey ">^+f", mark_and_forward_char
+    Hotkey ">^+b", mark_and_backward_char
+
+    Hotkey ">^w", kill_region                   ; 剪切
+    Hotkey "<!w", kill_ring_save                ; 复制
+    Hotkey ">^y", yank                          ; 粘贴
+
+    Hotkey ">^/", undo                          ; 撤销
+    Hotkey ">^+/", redo                         ; 重做
+
+    Hotkey ">^d", delete_char                   ; 删除
+    Hotkey "<!d", delete_word                   ; 删除 单词
+    Hotkey ">^k", kill_line                     ; 删除到行尾
+    Hotkey ">^o", open_line_up_wechat           ; 在上方新增一行
+    Hotkey ">^l", open_line_down_wechat         ; 在下方新增一行
+    Hotkey ">^j", new_line_and_indent_wechat    ; 换行并且缩进
+    Hotkey ">^m", new_line_wechat               ; 换行
+
+    Hotkey ">^z", (ThisHotkey) => minimize_win(wintext)  ; 最小化
+}
+
+; ----------------------------------------------------------------------------
+; Emacs 快捷键功能实现
+; ----------------------------------------------------------------------------
+
 ; turns to be 1 when ctrl-x is pressed
-is_pre_x = 0
-; turns to be 1 when ctrl-space is pressed
-is_pre_spc = 0
+is_pre_x := 0
 ; turns to be 1 when Ctrl-c is pressed
-is_pre_c = 0
+is_pre_c := 0
+; turns to be 1 when ctrl-space is pressed
+is_pre_spc := 0
 
-; Applications you want to disable emacs-like keybindings
-; (Please comment out applications you don't use)
-is_target()
-{
-IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
-    Return 1
-IfWinActive,ahk_exe Code.exe ;vscode
-    Return 1   
-IfWinActive,ahk_class VMwareUnityHostWndClass ; Avoid VMwareUnity with AutoHotkey
-    Return 1
-IfWinActive,ahk_class mintty
-    Return 1
-IfWinActive,ahk_class Window Class
-    Return 1
-IfWinActive,ahk_class CASCADIA_HOSTING_WINDOW_CLASS ;Windows 10 terminal
-    Return 1
-IfWinActive,ahk_class Vim ; GVI
-    Return 1
-IfWinActive,ahk_class Emacs ; NTEmacs
-    Return 1
-IfWinActive,ahk_class X410_XAppWin
-    Return 1
-Return 0
+hotkey_c_x(ThisHotkey) {
+    global is_pre_x := 1
 }
 
-is_smatraPDF()
-{
-    IfWinActive,ahk_class SUMATRA_PDF_FRAME ; smatraPDF
-        Return 1
-Return 0
+hotkey_c_c(ThisHotKey) {
+    If is_pre_x {
+        kill_emacs()
+    } 
+    Else {
+        global is_pre_c := 1
+    } 
 }
 
-delete_char()
-{
-    Send {Del}
-    global is_pre_spc = 0
-    Return
+quit(ThisHotKey) {
+    Send "{ESC}"
+    global is_pre_spc := 0
+    global is_pre_x := 0
+    global is_pre_c := 0
 }
 
-delete_word()
-{
-    Send ^{Del}
-    global is_pre_spc = 0
-    Return
+quit_wechat(ThisHotKey) {
+    Send "{Right}{Left}"
+    global is_pre_spc := 0
+    global is_pre_x := 0
+    global is_pre_c := 0
 }
 
-delete_backward_char()
-{
-    Send {BS}
-    global is_pre_spc = 0
-    Return
-}
-kill_line()
-{
-    Send {ShiftDown}{END}{SHIFTUP}
-    Sleep 50 ;[ms] this value depends on your environment
-    Send ^x
-    global is_pre_spc = 0
-    Return
-}
-open_line()
-{
-    Send {END}{Enter}{Up}
-    global is_pre_spc = 0
-    Return
+mark(ThisHotKey) {
+    If is_pre_spc {
+        global is_pre_spc := 0
+    }
+    Else {
+        global is_pre_spc := 1
+    }
 }
 
-open_line_emacs()
-{
-    Send {Home}{Enter}{Up}
-    global is_pre_spc = 0
-    Return
+delete_char(ThisHotKey) {
+    Send "{Del}"
+    global is_pre_spc := 0
 }
-quit()
-{
-    Send {ESC}
-    global is_pre_spc = 0
-    Return
+
+delete_word(ThisHotKey) {
+    Send "^{Del}"
+    global is_pre_spc := 0
 }
-newline()
-{
-    Send {Enter}
-    global is_pre_spc = 0
+
+delete_backward_char() {
+    Send "{BS}"
+    global is_pre_spc := 0
+}
+
+kill_line(ThisHotKey) {
+    Send "{ShiftDown}{END}{SHIFTUP}"
+    Sleep 50
+    Send "^x"
+    global is_pre_spc := 0
+}
+
+new_line(ThisHotKey) {
+    Send "{Enter}"
+    global is_pre_spc := 0
+}
+
+new_line_wechat(ThisHotKey) {
+    Send "{Ctrl down}{Enter}{Ctrl up}"
+    global is_pre_spc := 0
+}
+
+new_line_and_indent(ThisHotKey) {
+    Send "{Enter}"
+    Sleep 50
+    Send "{Tab}"
+    global is_pre_spc := 0
     Return
 }
 
-duplicate_line()
-{
-    Send ^d
-    global is_pre_spc = 0
-    Return
+new_line_and_indent_wechat(ThisHotKey) {
+    Send "{Ctrl down}{Enter}{Ctrl up}"
+    Sleep 50
+    Send "    "
+    global is_pre_spc := 0
 }
 
-newline_emacs()
-{
-    Send {END}{Enter}
-    global is_pre_spc = 0
-    Return
-}
-indent_for_tab_command()
-{
-    Send {Tab}
-    global is_pre_spc = 0
-    Return
+open_line_up(ThisHotKey) {
+    Send "{Home}{Enter}{Up}"
+    global is_pre_spc := 0
 }
 
-indent_for_tab_command_invert()
-{
-    Send +{Tab}
-    global is_pre_spc = 0
-    Return
-}
-newline_and_indent()
-{
-    Send {Enter}{Tab}
-    global is_pre_spc = 0
-    Return
-}
-isearch_forward()
-{
-    Send ^f
-    global is_pre_spc = 0
-    Return
-}
-isearch_backward()
-{
-    Send ^f
-    global is_pre_spc = 0
-    Return
-}
-kill_region()
-{
-    Send ^x
-    global is_pre_spc = 0
-    Return
-}
-kill_ring_save()
-{
-    Send ^c
-    global is_pre_spc = 0
-    Return
-}
-yank()
-{
-    Send ^v
-    global is_pre_spc = 0
-    Return
-}
-undo()
-{
-    Send ^z
-    global is_pre_spc = 0
-    Return
+open_line_down(ThisHotKey) {
+    Send "{END}{Enter}"
+    global is_pre_spc := 0
 }
 
-redo()
-{
-    Send ^y
-    global is_pre_spc = 0
-    Return
+open_line_up_wechat(ThisHotKey) {
+    Send "{Home}"
+    Sleep 50
+    Send "{Ctrl down}{Enter}{Ctrl up}"
+    Sleep 50
+    Send "{Up}"
+    global is_pre_spc := 0
 }
-find_file()
-{
-    Send ^o
-    global is_pre_x = 0
-    Return
+
+open_line_down_wechat(ThisHotKey) {
+    Send "{END}"
+    Sleep 50
+    Send "{Ctrl down}{Enter}{Ctrl up}"
+    global is_pre_spc := 0
 }
-save_buffer()
-{
-    Send, ^s
-    global is_pre_x = 0
-    Return
+
+indent_for_tab_command() {
+    Send "{Tab}"
+    global is_pre_spc := 0
 }
+
+indent_for_tab_command_invert() {
+    Send "+{Tab}"
+    global is_pre_spc := 0
+}
+
+isearch_forward() {
+    Send "^f"
+    global is_pre_spc := 0
+}
+
+isearch_backward(ThisHotKey) {
+    Send "^f"
+    global is_pre_spc := 0
+}
+
+iserach_and_save_buffer(ThisHotKey) {
+    If is_pre_x {
+        save_buffer()
+    } 
+    Else {
+        isearch_forward()
+    }
+}
+
+kill_region(ThisHotKey) {
+    Send "^x"
+    global is_pre_spc := 0
+}
+
+kill_ring_save(ThisHotKey) {
+    Send "^c{Left}{Right}"
+    global is_pre_spc := 0
+}
+
+yank(ThisHotKey) {
+    Send "^v"
+    global is_pre_spc := 0
+}
+
+undo(ThisHotKey) {
+    Send "^z"
+    global is_pre_spc := 0
+}
+
+redo(ThisHotKey) {
+    Send "^y"
+    global is_pre_spc := 0
+}
+
+find_file() {
+    Send "^o"
+    global is_pre_x := 0
+}
+
+save_buffer() {
+    Send "^s"
+    global is_pre_x := 0
+}
+
 kill_emacs()
 {
-    Send !{F4}
-    global is_pre_x = 0
-    Return
+    Send "!{F4}"
+    global is_pre_x := 0
 }
 
-move_beginning_of_line()
-{
-    global
-    if is_pre_spc
-        Send +{HOME}
-    Else
-        Send {HOME}
-        Return
-}
-move_end_of_line()
-{
-    global
-    if is_pre_spc
-        Send +{END}
-    Else
-        Send {END}
-        Return
-}
-previous_line()
-{
-    global
-    if is_pre_spc
-        Send +{Up}
-    Else
-        Send {Up}
-        Return
-}
-next_line()
-{
-    global
-    if is_pre_spc
-        Send +{Down}
-    Else
-        Send {Down}
-        Return
-}
-forward_char()
-{
-    global
-    if is_pre_spc
-        Send +{Right}
-    Else
-        Send {Right}
-        Return
-}
-backward_char()
-{
-    global
-    if is_pre_spc
-        Send +{Left}
-    Else
-        Send {Left}
-        Return
+move_beginning_of_buffer(ThisHotKey) {
+    If is_pre_x {
+        Send "^{HOME}"
+        global is_pre_x := 0
+    }
+    Else {
+        Send ThisHotKey
+    }
 }
 
-forward_word()
-{
-    global
+move_end_of_buffer(ThisHotKey) {
+    If is_pre_x {
+        Send "^{END}"
+        global is_pre_x := 0
+    }
+    Else {
+        Send ThisHotKey
+    }
+}
+
+move_beginning_of_line(ThisHotKey) {
     if is_pre_spc
-        Send ^+{Right}
+        Send "+{HOME}"
     Else
-        Send ^{Right}
-        Return
+        Send "{HOME}"
 }
 
-backward_word()
-{
-    global
+move_end_of_line(ThisHotKey) {
     if is_pre_spc
-        Send ^+{Left}
+        Send "+{END}"
     Else
-        Send ^{Left}
-        Return
+        Send "{END}"
 }
 
-scroll_up()
-{
-    global
+next_line(ThisHotKey) {
     if is_pre_spc
-        Send +{PgUp}
+        Send "+{Down}"
     Else
-        Send {PgUp}
-        Return
+        Send "{Down}"
 }
-scroll_down()
-{
-    global
+
+previous_line(ThisHotKey) {
     if is_pre_spc
-        Send +{PgDn}
+        Send "+{Up}"
     Else
-        Send {PgDn}
-        Return
+        Send "{Up}"
 }
 
-mark_whole_buffer()
-{
-    Send ^{End}^+{Home}
-    global is_pre_spc = 0
+forward_char(ThisHotKey) {
+    if is_pre_spc
+        Send "+{Right}"
+    Else
+        Send "{Right}"
 }
 
+backward_char(ThisHotKey) {
+    if is_pre_spc
+        Send "+{Left}"
+    Else
+        Send "{Left}"
+}
 
-^x::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    is_pre_x = 1
-Return
+forward_word(ThisHotKey) {
+    if is_pre_spc
+        Send "^+{Right}"
+    Else
+        Send "^{Right}"
+}
 
-^f::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_x
+backward_word(ThisHotKey) {
+    if is_pre_spc
+        Send "^+{Left}"
+    Else
+        Send "^{Left}"
+}
+
+forward_char_and_find_file(ThisHotKey) {
+    If is_pre_x {
         find_file()
-    Else
-        forward_char()
-}
-Return
-
-!f::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    forward_word()
-Return
-
-!b::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    backward_word()
-Return
-
-^c::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_x
-        kill_emacs()
-    Else
-        is_pre_c = 1    
-}
-Return
-
-^d::
-If is_target()
-    Send %A_ThisHotkey%
-Else If is_smatraPDF()
-{
-    Send ^b
-}
-
-Else
-    delete_char()
-Return
-!d::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    delete_word()
-Return
-
-^h::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    delete_backward_char()
-Return
-^k::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    kill_line()
-Return
-^o::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    open_line_emacs()
-Return
-^g::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    quit()
-Return
-^l::
-If (is_target() || is_smatraPDF())
-    Send %A_ThisHotkey%
-Else
-    newline_emacs()
-Return
-
-^j::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    newline_and_indent()
-Return
-^m::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    newline()
-Return
-^i::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    indent_for_tab_command_invert()
-Return
-
-!i::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    indent_for_tab_command()
-Return
-^s::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_x
-        save_buffer()
-    Else
-        isearch_forward()
-}
-Return
-^r::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    isearch_backward()
-Return
-^w::
-If (is_target() || is_smatraPDF())
-    Send %A_ThisHotkey%
-Else
-    kill_region()
-Return
-!w::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    kill_ring_save()
-Return
-^y::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    yank()
-Return
-^/::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    undo()
-Return
-
-^+/::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    redo()
-Return
-;$^{Space}::
-;^vk20sc039::
-^vk20::
-If is_target()
-    Send {CtrlDown}{Space}{CtrlUp}
-Else
-{
-    If is_pre_spc
-        is_pre_spc = 0
-    Else
-        is_pre_spc = 1
-}
-Return
-!h::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_spc
-        is_pre_spc = 0
-    Else
-        is_pre_spc = 1
-}
-Return
-^a::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    move_beginning_of_line()
-Return
-^e::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    move_end_of_line()
-Return
-^p::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    previous_line()
-Return
-^n::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    next_line()
-Return
-^b::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    backward_char()
-Return
-^v::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    scroll_down()
-Return
-!v::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    scroll_up()
-Return
-;;text scale increase
-#=::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    Send ^{WheelUp}
-    Return
-;;text scale decrease
-#-::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    Send ^{WheelDown}
-    Return
-
-;; maximize and restore window
-F11::
-If is_target()
-    Send {F11}
-Else
-{
-    WinGetActiveStats, Title, Width, Height, X, Y
-    If  x < -5
-        WinRestore,A
-    Else
-        WinMaximize,A
-}
-Return
-
-
-h::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_x
-    {
-        mark_whole_buffer()
-        global is_pre_x = 0
     }
-    Else
-        Send %A_ThisHotkey%
-}
-Return
-
-d::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_c
-    {
-        duplicate_line()
-        next_line()
-        global is_pre_c = 0
+    Else {
+        forward_char(ThisHotKey)
     }
-    Else
-        Send %A_ThisHotkey%
 }
-Return
 
-;; For Visual Studio
-;; 转到文档 M-.
-!.::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    Send {F12}
-Return
-;; 返回上一个位置 M-,
-!,::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-    Send ^{-}
-Return
-;; 切换行注释 C-x,C-;
-^;::
-If is_target()
-    Send %A_ThisHotkey%
-Else
-{
-    If is_pre_x
-    {
-        Send ^{k}
-        Sleep 50
-        Send ^{/}
-        next_line()
-        global is_pre_x = 0
+mark_and_beginning_of_line(ThisHotKey) {
+    global is_pre_spc := 1
+    move_beginning_of_line(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_and_end_of_line(ThisHotKey) {
+    global is_pre_spc := 1
+    move_end_of_line(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_and_next_line(ThisHotKey) {
+    global is_pre_spc := 1
+    next_line(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_and_previous_line(ThisHotKey) {
+    global is_pre_spc := 1
+    previous_line(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_and_forward_char(ThisHotKey) {
+    global is_pre_spc := 1
+    forward_char(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_and_backward_char(ThisHotKey) {
+    global is_pre_spc := 1
+    backward_char(ThisHotKey)
+    global is_pre_spc := 0
+}
+
+mark_whole_buffer(ThisHotKey) {
+    If is_pre_x {
+        Send "^{End}^+{Home}"
+        global is_pre_spc := 0
+        global is_pre_x := 0
     }
-    Else
-        Send %A_ThisHotkey%
+    Else{
+        Send ThisHotKey
+    }
 }
-Return
 
+scroll_up(ThisHotKey) {
+    if is_pre_spc
+        Send "+{PgUp}"
+    Else
+        Send "{PgUp}"
+}
+
+scroll_down(ThisHotKey) {
+    if is_pre_spc
+        Send "+{PgDn}"
+    Else
+        Send "{PgDn}"
+}
+
+tab_switch_forward(ThisHotKey) {
+    Send "^{Tab}"
+}
+
+tab_switch_backward(ThisHotKey) {
+    Send "^+{Tab}"
+}
+
+minimize_win(wintext){
+    WinMinimize(wintext)
+    Send "{Esc}"
+}

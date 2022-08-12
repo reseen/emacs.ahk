@@ -1,5 +1,326 @@
+# emacs.ahk
+该脚本为 Windows 应用程序提供了类Emacs的按键绑定。使用 AutoHotKey V2 脚本编写。
+
+首先使用 SharpKeys 将 CapsLock 按键修改为 RightCtrl，RightCtrl 按键修改为 LeftCtrl，这样使用 Ctrl 键为软件原生功能，CapsLock 键为 Emacs 模式按键，如此一来，常用的软件均可使用 Emacs 的快捷编辑体验。
+
+脚本当前有两种按键方案，分别对应不同的应用：
+
++ editor-keymap：用于各种文本编辑器
+  - VSCode
+  - Notepad 3
+  - Effidit
+  - Wolai（后续还需优化）
+
++ im-keymap：用于各种即时聊天工具
+  - Wechat
+  - TIM
+  - DingDing
+
++ 待添加的应用
+  - office系列
+  - 浏览器
+
+
+## Supported keybindings
+下表中 Ctrl 键实际键位为 CapsLock，映射按键为RightCtrl。
+<table>
+  <tr>
+    <th>Keybinding</th>
+    <th>Function</th>
+    <th>editor-keymap</th>
+    <th>im-keymap</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>C-Space</td>
+    <td>set-mark-command</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+   <tr>
+    <td>C-x C-f</td>
+    <td>find-file</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>C-x C-s</td>
+    <td>save-file</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-x C-c</td>
+    <td>kill-application</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-d</td>
+    <td>delete-char</td>
+    <td>√</td>
+    <td>√</td>
+    <td>可以删除选中区域</td>
+  </tr>
+  <tr>
+    <td>M-d</td>
+    <td>delete-word</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-k</td>
+    <td>kill-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-o</td>
+    <td>open-line-emacs</td>
+    <td>√</td>
+    <td>√</td>
+    <td>在当前行上方插入空白行</td>
+  </tr>
+  <tr>
+    <td>C-l</td>
+    <td>newline-emacs</td>
+    <td>√</td>
+    <td>√</td>
+    <td>在当前行下方插入空白行</td>
+  </tr>
+  <tr>
+    <td>C-g</td>
+    <td>quit</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-j</td>
+    <td>newline-and-indent</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-s</td>
+    <td>isearch-forward</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-r</td>
+    <td>isearch-backward</td>
+    <td>√</td>
+    <td></td>
+    <td>同上</td>
+  </tr>
+  <tr>
+    <td>C-w</td>
+    <td>kill-region</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>M-w</td>
+    <td>kill-ring-save</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-y</td>
+    <td>yank</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-/</td>
+    <td>undo</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-?</td>
+    <td>redo</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-a</td>
+    <td>move-beginning-of-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-e</td>
+    <td>move-end-of-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-p</td>
+    <td>previous-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-n</td>
+    <td>next-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-f</td>
+    <td>forward-char</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-b</td>
+    <td>backward-char</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+    <tr>
+    <td>C-S-a</td>
+    <td>mark-beginning-of-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-S-e</td>
+    <td>mark-end-of-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-S-p</td>
+    <td>mark-previous-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-S-n</td>
+    <td>mark-next-line</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-S-f</td>
+    <td>mark-forward-char</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-S-b</td>
+    <td>mark-backward-char</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>M-f</td>
+    <td>forward-word</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>M-b</td>
+    <td>backward-word</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-v</td>
+    <td>scroll-down</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>M-v</td>
+    <td>scroll-up</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-></td>
+    <td>tab_switch_forward</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-<</td>
+    <td>tab_switch_backward</td>
+    <td>√</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-x, a</td>
+    <td>end-of-buffer</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-x, e</td>
+    <td>beginning of buffer</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-x, h</td>
+    <td>mark-whole-buffer</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-z</td>
+    <td>minisize-application</td>
+    <td>√</td>
+    <td>√</td>
+    <td></td>
+  </tr>
+</table>
+
+<br>
+
+---
 # emacs_effidit.ahk
-该脚本为腾讯 Effidit AI 文创编辑器提供了类 Emacs 的按键绑定，使用 AutoHotKey V2 脚本编写，脚本基于原emacs.ahk 进行修改。
+该脚本为腾讯 Effidit AI 文创编辑器提供了类 Emacs 的按键绑定，使用 AutoHotKey V2 脚本编写，脚本基于 emacs.ahk 进行修改。
+
+这段代码有点乱，后面抽空再整理一下。
 
 ## Supported keybindings
 
@@ -72,16 +393,6 @@
   <tr>
     <td>C-j</td>
     <td>newline-and-indent</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>M-i</td>
-    <td>indent-for-tab-command</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>C-i</td>
-    <td>indent-for-tab-command-invert</td>
     <td></td>
   </tr>
   <tr>
@@ -199,6 +510,16 @@
     <td>scroll-up</td>
     <td></td>
   </tr>
+   <tr>
+    <td>C-></td>
+    <td>tab_switch_forward</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>C-<</td>
+    <td>tab_switch_backward</td>
+    <td></td>
+  </tr>
   <tr>
     <td>C-x, a</td>
     <td>end-of-buffer</td>
@@ -246,184 +567,3 @@
   </tr>
 </table>
 
-# emacs.ahk
-This tiny script allows you to use the emacs-like key bindings on Windows, which is written in AutoHotkey (AHK) language. The maintainer has used this script since 2020-06 and has verified that it works effectively for various kinds of applications.
-
-## Supported keybindings
-<table>
-  <tr>
-    <th>Keybinding</th>
-    <th>Emacs Lisp Function</th>
-  </tr>
-<tr>
-<td>C-Space</td>
-<td>set-mark-command</td>
-</tr>
-<tr>
-<td>M-h</td>
-<td>set-mark-command</td>
-</tr>
-<tr>
-<td>C-x C-f</td>
-<td>find-file</td>
-</tr>
-<tr>
-<td>C-x C-s</td>
-<td>save-buffer</td>
-</tr>
-<tr>
-<td>C-x C-c</td>
-<td>kill-emacs</td>
-</tr>
-<tr>
-<td>F5</td>
-<td>kill-emacs</td>
-</tr>
-<tr>
-<td>C-d</td>
-<td>delete-char</td>
-</tr>
-<tr>
-<td>M-d</td>
-<td>delete-word</td>
-</tr>
-<tr>
-<td>C-h</td>
-<td>delete-backward-char</td>
-</tr>
-<tr>
-<td>C-k</td>
-<td>kill-line</td>
-</tr>
-<tr>
-<td>C-o</td>
-<td>open-line-emacs</td>
-</tr>
-<tr>
-<td>C-g</td>
-<td>quit</td>
-</tr>
-<tr>
-<td>C-j</td>
-<td>newline-and-indent</td>
-</tr>
-<tr>
-<td>C-l</td>
-<td>newline-emacs</td>
-</tr>
-<tr>
-<td>C-m</td>
-<td>newline</td>
-</tr>
-<tr>
-<td>C-l</td>
-<td>newline_emacs</td>
-</tr>
-<tr>
-<td>M-i</td>
-<td>indent-for-tab-command</td>
-</tr>
-<tr>
-<td>C-i</td>
-<td>indent-for-tab-command-invert</td>
-</tr>
-<tr>
-<td>C-s</td>
-<td>isearch-forward</td>
-</tr>
-<tr>
-<td>C-r</td>
-<td>isearch-backward</td>
-</tr>
-<tr>
-<td>C-w</td>
-<td>kill-region</td>
-</tr>
-<tr>
-<td>M-w</td>
-<td>kill-ring-save</td>
-</tr>
-<tr>
-<td>C-y</td>
-<td>yank</td>
-</tr>
-<tr>
-<td>C-/</td>
-<td>undo</td>
-</tr>
-<tr>
-<td>C-?</td>
-<td>redo</td>
-</tr>
-<tr>
-<td>C-a</td>
-<td>move-beginning-of-line</td>
-</tr>
-<tr>
-<td>C-e</td>
-<td>move-end-of-line</td>
-</tr>
-<tr>
-<td>C-p</td>
-<td>previous-line</td>
-</tr>
-<tr>
-<td>C-n</td>
-<td>next-line</td>
-</tr>
-<tr>
-<td>C-f</td>
-<td>forward-char</td>
-</tr>
-<tr>
-<td>C-b</td>
-<td>backward-char</td>
-</tr>
-<tr>
-<td>M-f</td>
-<td>forward-word</td>
-</tr>
-<tr>
-<td>M-b</td>
-<td>backward-word</td>
-</tr>
-<tr>
-<td>C-v</td>
-<td>scroll-down</td>
-</tr>
-<tr>
-<td>M-v</td>
-<td>scroll-up</td>
-</tr>
-<tr>
-<td>win-=</td>
-<td>text-scale-increase</td>
-</tr>
-<tr>
-<td>win--</td>
-<td>text-scale-decrease</td>
-</tr>
-<tr>
-<td>F11</td>
-<td>maximize or restore window</td>
-</tr>
-<tr>
-<td>C-z, j</td>
-<td>end-of-buffer</td>
-</tr>
-<tr>
-<td>C-z, k</td>
-<td>beginning of buffer</td>
-</tr>
-<tr>
-<td>C-x, h</td>
-<td>mark-whole-buffer</td>
-</tr>
-</table>
-
-* Customized by Eason Huang
-# Toggle Input Method by Capslock Key
-use Capslock key for input method switch, and hold the Capslock key for switching Capslocks
-
-# Other useful functions
-windows.ahk include some useful fictions for handling windows system more efficient.
