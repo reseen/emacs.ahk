@@ -5,5 +5,5 @@
 #SingleInstance Force
 
 ;; Emacs 按键绑定
-#include emacs.ahk
+#include "emacs.ahk"
 

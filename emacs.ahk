@@ -337,7 +337,12 @@ move_beginning_of_buffer(ThisHotKey) {
         global is_pre_x := 0
     }
     Else {
-        Send ThisHotKey
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
     }
 }
 
@@ -347,7 +352,12 @@ move_end_of_buffer(ThisHotKey) {
         global is_pre_x := 0
     }
     Else {
-        Send ThisHotKey
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
     }
 }
 
@@ -459,7 +469,12 @@ mark_whole_buffer(ThisHotKey) {
         global is_pre_x := 0
     }
     Else{
-        Send ThisHotKey
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
     }
 }
 
