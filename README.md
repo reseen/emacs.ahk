@@ -89,9 +89,9 @@
   </tr>
 
   <tr>
-    <td>C-v</td>
+    <td>C-S-v</td>
     <td>scroll-down</td>
-    <td></td>
+    <td>C-v 与 Ditto 冲突</td>
   </tr>
   <tr>
     <td>M-v</td>

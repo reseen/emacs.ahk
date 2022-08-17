@@ -95,7 +95,7 @@ base_keymap(){
     Hotkey "<!f", forward_word
     Hotkey "<!b", backward_word
 
-    Hotkey ">^v", scroll_down                   ; 向下滚动
+    Hotkey ">^+v", scroll_down                  ; 向下滚动  C-v 与 Ditto 冲突
     Hotkey "<!v", scroll_up                     ; 向上滚动
 
     Hotkey "a", move_beginning_of_buffer        ; C-x a 光标移动到最前
