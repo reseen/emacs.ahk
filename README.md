@@ -382,4 +382,4 @@
 # 其他
 
 + emacs.skl：SharpKeys 改键方案，可直接导入使用
-+ template.dotx：一个基本的 word 模板。
++ template.dotx：一个定义了基本快捷键的 word 模板。
