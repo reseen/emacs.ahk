@@ -29,9 +29,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -66,9 +66,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -83,9 +83,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -100,9 +100,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -153,9 +153,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -175,9 +175,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -192,9 +192,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
@@ -214,9 +214,9 @@
   </tr>
 
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
   </tr>
 
   <tr>
