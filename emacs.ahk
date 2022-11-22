@@ -16,6 +16,7 @@ editor_keymap("ahk_exe Code.exe")               ; VsCode
 editor_keymap("ahk_exe Effidit.exe")            ; Effidit
 
 office_keymap("ahk_exe WINWORD.EXE")            ; Word
+office_keymap("ahk_exe EXCEL.EXE")              ; Excel
 office_keymap("ahk_exe Notepad3.exe")           ; Notepad3
 
 explorer_keymap("ahk_exe explorer.exe")         ; 资源管理器
@@ -71,8 +72,11 @@ office_keymap(wintext) {
 
 im_keymap(wintext) {
     HotIfWinActive wintext
+    Hotkey ">^g", quit_im                       ; quit
     Hotkey ">^j", new_line_and_indent_wechat    ; 换行并且缩进
     Hotkey ">^m", new_line_wechat               ; 换行
+    Hotkey ">^o", open_line_up_im           	; 在上方新增一行
+    Hotkey ">^l", open_line_down_im         	; 在下方新增一行
 
     Hotkey ">^z", (ThisHotkey) => Send("{Esc}") ; 最小化
 }
@@ -84,7 +88,7 @@ base_keymap(){
     Hotkey ">^c", hotkey_c_c                    ; C-c 基础组合键
     Hotkey ">^x", hotkey_c_x                    ; C-x 基础组合键
     Hotkey "<!vk20", mark                       ; M-Space Mark
-    Hotkey ">^g", quit_wechat                   ; quit
+    Hotkey ">^g", quit                          ; quit
 
     Hotkey ">^a", move_beginning_of_line        ; 基础光标移动
     Hotkey ">^e", move_end_of_line
@@ -119,8 +123,8 @@ base_keymap(){
     Hotkey ">^d", delete_char                   ; 删除
     Hotkey "<!d", delete_word                   ; 删除 单词
     Hotkey ">^k", kill_line                     ; 删除到行尾
-    Hotkey ">^o", open_line_up_wechat           ; 在上方新增一行
-    Hotkey ">^l", open_line_down_wechat         ; 在下方新增一行
+    Hotkey ">^o", open_line_up           		; 在上方新增一行
+    Hotkey ">^l", open_line_down         		; 在下方新增一行
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
 
@@ -173,8 +177,10 @@ quit(ThisHotKey) {
     global is_pre_c := 0
 }
 
-quit_wechat(ThisHotKey) {
-    Send "{Right}{Left}"
+quit_im(ThisHotKey) {
+    if is_pre_spc == 1 {
+        Send "{Right}"
+    }
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
@@ -246,7 +252,7 @@ open_line_down(ThisHotKey) {
     global is_pre_spc := 0
 }
 
-open_line_up_wechat(ThisHotKey) {
+open_line_up_im(ThisHotKey) {
     Send "{Home}"
     Sleep 50
     Send "{Ctrl down}{Enter}{Ctrl up}"
@@ -255,7 +261,7 @@ open_line_up_wechat(ThisHotKey) {
     global is_pre_spc := 0
 }
 
-open_line_down_wechat(ThisHotKey) {
+open_line_down_im(ThisHotKey) {
     Send "{END}"
     Sleep 50
     Send "{Ctrl down}{Enter}{Ctrl up}"
