@@ -123,6 +123,8 @@ base_keymap(){
     Hotkey ">^l", open_line_down_wechat         ; 在下方新增一行
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
+
+    Hotkey ">^+r Up", reenter_chinese           ; 中文输入法重新输入选中文字
 }
 
 ; ----------------------------------------------------------------------------
@@ -510,4 +512,34 @@ dir_backward(ThisHotKey) {
 
 dir_up_level(ThisHotKey) {
     Send "!{Up}"
+}
+
+; 使用中文输入法重新输入选中文字
+reenter_chinese(ThisHotKey) {
+
+    user32 := DllCall("LoadLibrary", "Str", "user32", "Ptr")
+    GetForegroundWindow := DllCall("GetProcAddress", "Ptr", user32, "AStr", "GetForegroundWindow", "Ptr")
+
+    imm32 := DllCall("LoadLibrary", "Str", "imm32", "Ptr")
+    ImmGetDefaultIMEWnd := DllCall("GetProcAddress", "Ptr", imm32, "AStr", "ImmGetDefaultIMEWnd", "Ptr")
+
+    ; 获取当前激活窗口句柄
+    activeHwnd := DllCall(GetForegroundWindow)
+
+    ; 获取当前激活窗口的 IME ID
+    IMEwin_id := DllCall(ImmGetDefaultIMEWnd, "Uint", activeHwnd, "Uint")
+
+    state := SendMessage(0x283, 0x001, 0, , IMEwin_id, , , , 1000)
+    if (state == 0){
+        ; 如果是英文输入法状态，则切换到中文
+        SendMessage(0x283, 0x002, 1025, , IMEwin_id, , , , 1000)
+    }
+
+    A_Clipboard := ""   ; 清空剪贴板
+    Sleep 50
+    Send "^c"
+
+    ClipWait  
+    Sleep 50
+    Send A_Clipboard    ; 重新输入  
 }
