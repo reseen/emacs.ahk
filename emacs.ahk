@@ -51,8 +51,8 @@ editor_keymap(wintext) {
 explorer_keymap(wintext) {
     HotIfWinActive wintext
 
-    Hotkey "<!]", dir_forward                   ; 前进
-    Hotkey "<![", dir_backward                  ; 后退
+    Hotkey "<![", dir_forward                   ; 前进
+    Hotkey "<!]", dir_backward                  ; 后退
     HotKey "<!=", dir_up_level                  ; 上一级
     HotKey "<!\", dir_up_level                  ; 上一级
 }
@@ -105,6 +105,10 @@ base_keymap(){
     Hotkey "a", move_beginning_of_buffer        ; C-x a 光标移动到最前
     Hotkey "e", move_end_of_buffer              ; C-x e 光标移动到最后
     Hotkey "h", mark_whole_buffer               ; C-x h 全选
+    Hotkey "u", undo_pre_x                      ; C-x u 撤销
+
+    Hotkey "c", start_calculator                ; C-c c 启动计算器
+    Hotkey "n", start_notepad                   ; C-c n 启动记事本
 
     Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
     Hotkey ">^+e", mark_and_end_of_line
@@ -147,6 +151,19 @@ regedit_minimize(wintext, mode) {
 }
 
 ; ----------------------------------------------------------------------------
+; Tips 提示
+; ----------------------------------------------------------------------------
+
+show_tips(wintext) {
+    ToolTip wintext
+}
+
+hide_tips(wintext) {
+    ToolTip wintext
+    SetTimer () => ToolTip(), -500
+}
+
+; ----------------------------------------------------------------------------
 ; Emacs 快捷键功能实现
 ; ----------------------------------------------------------------------------
 
@@ -159,14 +176,18 @@ is_pre_spc := 0
 
 hotkey_c_x(ThisHotkey) {
     global is_pre_x := 1
+    show_tips("C-x")
 }
 
 hotkey_c_c(ThisHotKey) {
     If is_pre_x {
         kill_emacs()
+        global is_pre_x := 0
+        hide_tips("C-x C-c")
     } 
     Else {
         global is_pre_c := 1
+        show_tips("C-c")
     } 
 }
 
@@ -175,6 +196,7 @@ quit(ThisHotKey) {
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
+    hide_tips("C-q")
 }
 
 quit_im(ThisHotKey) {
@@ -184,14 +206,17 @@ quit_im(ThisHotKey) {
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
+    hide_tips("C-q")
 }
 
 mark(ThisHotKey) {
     If is_pre_spc {
         global is_pre_spc := 0
+        hide_tips("C-space Mark Disable")
     }
     Else {
         global is_pre_spc := 1
+        show_tips("C-space Mark Enable")
     }
 }
 
@@ -291,6 +316,7 @@ isearch_backward(ThisHotKey) {
 iserach_and_save_buffer(ThisHotKey) {
     If is_pre_x {
         save_buffer()
+        hide_tips("C-x C-s")
     } 
     Else {
         isearch_forward()
@@ -299,18 +325,43 @@ iserach_and_save_buffer(ThisHotKey) {
 
 kill_region(ThisHotKey) {
     Send "^x"
+    if is_pre_spc {
+        hide_tips("C-w")
+    }
     global is_pre_spc := 0
 }
 
 kill_ring_save(ThisHotKey) {
     Send "^c"
     Send "{Right}"    ; 复制完成后 取消选择
+    if is_pre_spc {
+        hide_tips("M-w")
+    }
     global is_pre_spc := 0
 }
 
 yank(ThisHotKey) {
     Send "^v"
+    if is_pre_spc {
+        hide_tips("C-y")
+    }
     global is_pre_spc := 0
+}
+
+undo_pre_x(ThisHotKey) {
+    If is_pre_x {
+        Send "^z"
+        global is_pre_spc := 0
+        hide_tips("C-x u")
+    }
+    Else {
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
 }
 
 undo(ThisHotKey) {
@@ -343,6 +394,7 @@ move_beginning_of_buffer(ThisHotKey) {
     If is_pre_x {
         Send "^{HOME}"
         global is_pre_x := 0
+        hide_tips("C-x a")
     }
     Else {
         if GetKeyState("CapsLock", "T") == 0 {
@@ -358,6 +410,7 @@ move_end_of_buffer(ThisHotKey) {
     If is_pre_x {
         Send "^{END}"
         global is_pre_x := 0
+         hide_tips("C-x e")
     }
     Else {
         if GetKeyState("CapsLock", "T") == 0 {
@@ -428,6 +481,7 @@ backward_word(ThisHotKey) {
 forward_char_and_find_file(ThisHotKey) {
     If is_pre_x {
         find_file()
+        hide_tips("C-x C-f")
     }
     Else {
         forward_char(ThisHotKey)
@@ -475,6 +529,7 @@ mark_whole_buffer(ThisHotKey) {
         Send "^{End}^+{Home}"
         global is_pre_spc := 0
         global is_pre_x := 0
+        hide_tips("C-x h")
     }
     Else{
         if GetKeyState("CapsLock", "T") == 0 {
@@ -548,4 +603,38 @@ reenter_chinese(ThisHotKey) {
     ClipWait  
     Sleep 50
     Send A_Clipboard    ; 重新输入  
+}
+
+; 启动计算器
+start_calculator(ThisHotKey) {
+    If is_pre_c {
+        global is_pre_c := 0
+        Run("calc.exe")
+        hide_tips("C-c c")
+    }
+    Else {
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
+}
+
+; 启动记事本
+start_notepad(ThisHotKey) {
+    If is_pre_c {
+        global is_pre_c := 0
+        Run("notepad")
+        hide_tips("C-c n")
+    }
+    Else {
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
 }
