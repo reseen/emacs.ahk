@@ -107,7 +107,7 @@ base_keymap(){
     Hotkey "h", mark_whole_buffer               ; C-x h 全选
     Hotkey "u", undo_pre_x                      ; C-x u 撤销
 
-    Hotkey "c", start_calculator                ; C-c c 启动计算器
+    Hotkey "j", start_calculator                ; C-c j 启动计算器
     Hotkey "n", start_notepad                   ; C-c n 启动记事本
 
     Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
@@ -132,7 +132,7 @@ base_keymap(){
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
 
-    Hotkey ">^+r Up", reenter_chinese           ; 中文输入法重新输入选中文字
+	Hotkey ">^+r Up", reenter_chinese           ; 中文输入法重新输入选中文字
 }
 
 ; ----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ quit(ThisHotKey) {
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
-    hide_tips("C-q")
+    hide_tips("C-g")
 }
 
 quit_im(ThisHotKey) {
@@ -206,7 +206,7 @@ quit_im(ThisHotKey) {
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
-    hide_tips("C-q")
+    hide_tips("C-g")
 }
 
 mark(ThisHotKey) {
@@ -610,7 +610,7 @@ start_calculator(ThisHotKey) {
     If is_pre_c {
         global is_pre_c := 0
         Run("calc.exe")
-        hide_tips("C-c c")
+        hide_tips("C-c j")
     }
     Else {
         if GetKeyState("CapsLock", "T") == 0 {
