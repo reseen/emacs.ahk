@@ -25,6 +25,7 @@ explorer_keymap("ahk_exe XYplorer.exe")         ; Xyplorer
 im_keymap("ahk_exe WeChat.exe")
 im_keymap("ahk_exe TIM.exe")
 im_keymap("ahk_exe CUClient.exe")
+im_keymap("ahk_exe flomo卡片笔记.exe")
 
 regedit_minimize("ahk_exe Wolai.exe", 0)        ; 我来
 
@@ -203,6 +204,7 @@ quit_im(ThisHotKey) {
     if is_pre_spc == 1 {
         Send "{Right}"
     }
+    Send "+{ESC}"
     global is_pre_spc := 0
     global is_pre_x := 0
     global is_pre_c := 0
