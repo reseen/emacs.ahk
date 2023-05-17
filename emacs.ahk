@@ -193,11 +193,15 @@ hotkey_c_c(ThisHotKey) {
 }
 
 quit(ThisHotKey) {
-    Send "{ESC}"
-    global is_pre_spc := 0
-    global is_pre_x := 0
-    global is_pre_c := 0
-    hide_tips("C-g")
+	if (is_pre_x != 0 or is_pre_c != 0 or is_pre_spc != 0) {
+		global is_pre_spc := 0
+		global is_pre_x := 0
+		global is_pre_c := 0
+		hide_tips("C-g")
+	}
+	else{
+		Send "{ESC}"
+	}
 }
 
 quit_im(ThisHotKey) {
