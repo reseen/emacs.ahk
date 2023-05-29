@@ -11,13 +11,14 @@ SetKeyDelay 0
 ;  应用按键绑定
 ; ----------------------------------------------------------------------------
 base_keymap()                                   ; 基础按键绑定 所有软件下均生效
+base61_keymap()                                 ; 61键键盘基础按键绑定
 
 editor_keymap("ahk_exe Code.exe")               ; VsCode
 editor_keymap("ahk_exe Effidit.exe")            ; Effidit
+editor_keymap("ahk_exe Notepad3.exe")           ; Notepad3
 
 office_keymap("ahk_exe WINWORD.EXE")            ; Word
 office_keymap("ahk_exe EXCEL.EXE")              ; Excel
-office_keymap("ahk_exe Notepad3.exe")           ; Notepad3
 
 explorer_keymap("ahk_exe explorer.exe")         ; 资源管理器
 explorer_keymap("ahk_exe XYplorer.exe")         ; Xyplorer
@@ -36,6 +37,9 @@ editor_keymap(wintext) {
     HotIfWinActive wintext
 
     Hotkey ">^f", forward_char_and_find_file    ; C-x C-f 打开文件 / 光标右移
+
+    Hotkey "<!n", line_move_down
+    Hotkey "<!p", line_move_up
     
     Hotkey ">^s", iserach_and_save_buffer       ; C-x s 保存 / 搜索
     Hotkey ">^r", isearch_backward              ; 搜索 反向
@@ -56,6 +60,7 @@ explorer_keymap(wintext) {
     Hotkey "<!]", dir_backward                  ; 后退
     HotKey "<!=", dir_up_level                  ; 上一级
     HotKey "<!\", dir_up_level                  ; 上一级
+    HotKey ">^+d", dir_delete                   ; 彻底删除文件夹
 }
 
 ; ----------------------------------------------------------------------------
@@ -133,12 +138,31 @@ base_keymap(){
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
 
-	Hotkey ">^+r Up", reenter_chinese           ; 中文输入法重新输入选中文字
+	Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
+}
+
+; ----------------------------------------------------------------------------
+;  61键按键绑定，所有应用均生效
+; ----------------------------------------------------------------------------
+base61_keymap() {
+    Hotkey ">^1", fn_f1
+    Hotkey ">^2", fn_f2
+    Hotkey ">^3", fn_f3
+    Hotkey ">^4", fn_f4
+    Hotkey ">^5", fn_f5
+    Hotkey ">^6", fn_f6
+    Hotkey ">^7", fn_f7
+    Hotkey ">^8", fn_f8
+    Hotkey ">^9", fn_f9
+    Hotkey ">^0", fn_f10
+    Hotkey ">^-", fn_f11
+    Hotkey ">^=", fn_f12
 }
 
 ; ----------------------------------------------------------------------------
 ;  注册最小化快捷键
 ; ----------------------------------------------------------------------------
+
 regedit_minimize(wintext, mode) {
     HotIfWinActive wintext
 
@@ -561,6 +585,14 @@ scroll_down(ThisHotKey) {
         Send "{PgDn}"
 }
 
+line_move_up(ThisHotKey){
+    Send "!{Up}"
+}
+
+line_move_down(ThisHotKey){
+    Send "!{Down}"
+}
+
 tab_switch_forward(ThisHotKey) {
     Send "^{Tab}"
 }
@@ -579,6 +611,10 @@ dir_backward(ThisHotKey) {
 
 dir_up_level(ThisHotKey) {
     Send "!{Up}"
+}
+
+dir_delete(ThisHotKey){
+    send "+{Del}"
 }
 
 ; 使用中文输入法重新输入选中文字
@@ -610,6 +646,44 @@ reenter_chinese(ThisHotKey) {
     Sleep 50
     Send A_Clipboard    ; 重新输入  
 }
+
+fn_f1(ThisHotKey){
+    Send "{F1}"
+}
+fn_f2(ThisHotKey){
+    Send "{F2}"
+}
+fn_f3(ThisHotKey){
+    Send "{F3}"
+}
+fn_f4(ThisHotKey){
+    Send "{F4}"
+}
+fn_f5(ThisHotKey){
+    Send "{F5}"
+}
+fn_f6(ThisHotKey){
+    Send "{F6}"
+}
+fn_f7(ThisHotKey){
+    Send "{F7}"
+}
+fn_f8(ThisHotKey){
+    Send "{F8}"
+}
+fn_f9(ThisHotKey){
+    Send "{F9}"
+}
+fn_f10(ThisHotKey){
+    Send "{F10}"
+}
+fn_f11(ThisHotKey){
+    Send "{F11}"
+}
+fn_f12(ThisHotKey){
+    Send "{F12}"
+}
+
 
 ; 启动计算器
 start_calculator(ThisHotKey) {
