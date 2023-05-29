@@ -10,25 +10,30 @@ SetKeyDelay 0
 ; ----------------------------------------------------------------------------
 ;  应用按键绑定
 ; ----------------------------------------------------------------------------
-base_keymap()                                   ; 基础按键绑定 所有软件下均生效
-base61_keymap()                                 ; 61键键盘基础按键绑定
+HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"	; 终端窗口
 
-editor_keymap("ahk_exe Code.exe")               ; VsCode
-editor_keymap("ahk_exe Effidit.exe")            ; Effidit
-editor_keymap("ahk_exe Notepad3.exe")           ; Notepad3
+base_keymap()                                   	; 基础按键绑定
+base61_keymap()                                 	; 61键键盘基础按键绑定
 
-office_keymap("ahk_exe WINWORD.EXE")            ; Word
-office_keymap("ahk_exe EXCEL.EXE")              ; Excel
 
-explorer_keymap("ahk_exe explorer.exe")         ; 资源管理器
-explorer_keymap("ahk_exe XYplorer.exe")         ; Xyplorer
+editor_keymap("ahk_exe Code.exe")               	; VsCode
+editor_keymap("ahk_exe Effidit.exe")            	; Effidit
+editor_keymap("ahk_exe Notepad3.exe")           	; Notepad3
+
+office_keymap("ahk_exe WINWORD.EXE")            	; Word
+office_keymap("ahk_exe EXCEL.EXE")              	; Excel
+
+explorer_keymap("ahk_exe explorer.exe")         	; 资源管理器
+explorer_keymap("ahk_exe XYplorer.exe")         	; Xyplorer
 
 im_keymap("ahk_exe WeChat.exe")
 im_keymap("ahk_exe TIM.exe")
 im_keymap("ahk_exe CUClient.exe")
 im_keymap("ahk_exe flomo卡片笔记.exe")
 
-regedit_minimize("ahk_exe Wolai.exe", 0)        ; 我来
+terminal_keymap("ahk_exe WindowsTerminal.exe")	; Windows Terminal
+
+
 
 ; ----------------------------------------------------------------------------
 ;  editor 文本编辑器 按键模式
@@ -75,7 +80,9 @@ office_keymap(wintext) {
     Hotkey ">^r", isearch_backward              ; 搜索 反向
 }
 
-
+; ----------------------------------------------------------------------------
+;  im 按键绑定
+; ----------------------------------------------------------------------------
 im_keymap(wintext) {
     HotIfWinActive wintext
     Hotkey ">^g", quit_im                       ; quit
@@ -85,6 +92,38 @@ im_keymap(wintext) {
     Hotkey ">^l", open_line_down_im         	; 在下方新增一行
 
     Hotkey ">^z", (ThisHotkey) => Send("{Esc}") ; 最小化
+}
+
+; ----------------------------------------------------------------------------
+;  terminal 按键绑定
+; ----------------------------------------------------------------------------
+terminal_keymap(wintext){
+	HotIfWinActive wintext
+    Hotkey ">^x", hotkey_c_x                    ; C-x 基础组合键
+    Hotkey ">^g", quit                          ; quit
+
+    Hotkey ">^a", move_beginning_of_line        ; 基础光标移动
+    Hotkey ">^e", move_end_of_line
+    Hotkey ">^n", next_line
+    Hotkey ">^p", previous_line
+    Hotkey ">^f", forward_char
+    Hotkey ">^b", backward_char
+
+    Hotkey "a", move_beginning_of_buffer        ; C-x a 光标移动到最前
+    Hotkey "e", move_end_of_buffer              ; C-x e 光标移动到最后
+    Hotkey "h", mark_whole_buffer               ; C-x h 全选
+    Hotkey "u", undo_pre_x                      ; C-x u 撤销
+
+    Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
+    Hotkey ">^+e", mark_and_end_of_line
+    Hotkey ">^+n", mark_and_next_line
+    Hotkey ">^+p", mark_and_previous_line
+    Hotkey ">^+f", mark_and_forward_char
+    Hotkey ">^+b", mark_and_backward_char
+
+    Hotkey ">^d", delete_char                   ; 删除
+    Hotkey "<!d", delete_word                   ; 删除 单词
+    Hotkey ">^k", kill_line                     ; 删除到行尾
 }
 
 ; ----------------------------------------------------------------------------
@@ -133,12 +172,12 @@ base_keymap(){
     Hotkey ">^d", delete_char                   ; 删除
     Hotkey "<!d", delete_word                   ; 删除 单词
     Hotkey ">^k", kill_line                     ; 删除到行尾
-    Hotkey ">^o", open_line_up           		; 在上方新增一行
-    Hotkey ">^l", open_line_down         		; 在下方新增一行
+    Hotkey ">^+o", open_line_up           		; 在上方新增一行
+    Hotkey ">^o", open_line_down         		; 在下方新增一行
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
 
-	Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
+	; Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
 }
 
 ; ----------------------------------------------------------------------------
