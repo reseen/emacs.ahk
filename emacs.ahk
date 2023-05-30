@@ -10,12 +10,6 @@ SetKeyDelay 0
 ; ----------------------------------------------------------------------------
 ;  应用按键绑定
 ; ----------------------------------------------------------------------------
-HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"	; 终端窗口
-
-base_keymap()                                   	; 基础按键绑定
-base61_keymap()                                 	; 61键键盘基础按键绑定
-
-
 editor_keymap("ahk_exe Code.exe")               	; VsCode
 editor_keymap("ahk_exe Effidit.exe")            	; Effidit
 editor_keymap("ahk_exe Notepad3.exe")           	; Notepad3
@@ -33,7 +27,10 @@ im_keymap("ahk_exe flomo卡片笔记.exe")
 
 terminal_keymap("ahk_exe WindowsTerminal.exe")	; Windows Terminal
 
-
+HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"
+base_keymap()                                   	; 基础按键绑定
+base61_keymap()                                 	; 61键键盘基础按键绑定
+HotIfWinNotActive
 
 ; ----------------------------------------------------------------------------
 ;  editor 文本编辑器 按键模式
@@ -53,6 +50,7 @@ editor_keymap(wintext) {
     Hotkey ">^+,", tab_switch_backward          ; 切换 Tab 栏  反向
 
     Hotkey ">^z", (ThisHotkey) => WinMinimize(wintext)  ; 最小化
+    HotIfWinActive
 }
 
 ; ----------------------------------------------------------------------------
@@ -66,6 +64,7 @@ explorer_keymap(wintext) {
     HotKey "<!=", dir_up_level                  ; 上一级
     HotKey "<!\", dir_up_level                  ; 上一级
     HotKey ">^+d", dir_delete                   ; 彻底删除文件夹
+    HotIfWinActive
 }
 
 ; ----------------------------------------------------------------------------
@@ -78,6 +77,7 @@ office_keymap(wintext) {
 
     Hotkey ">^s", iserach_and_save_buffer       ; C-x s 保存 / 搜索
     Hotkey ">^r", isearch_backward              ; 搜索 反向
+    HotIfWinActive
 }
 
 ; ----------------------------------------------------------------------------
@@ -92,6 +92,7 @@ im_keymap(wintext) {
     Hotkey ">^l", open_line_down_im         	; 在下方新增一行
 
     Hotkey ">^z", (ThisHotkey) => Send("{Esc}") ; 最小化
+    HotIfWinActive
 }
 
 ; ----------------------------------------------------------------------------
@@ -124,6 +125,7 @@ terminal_keymap(wintext){
     Hotkey ">^d", delete_char                   ; 删除
     Hotkey "<!d", delete_word                   ; 删除 单词
     Hotkey ">^k", kill_line                     ; 删除到行尾
+    HotIfWinActive
 }
 
 ; ----------------------------------------------------------------------------
