@@ -10,7 +10,8 @@ SetKeyDelay 0
 ; ----------------------------------------------------------------------------
 ;  应用按键绑定
 ; ----------------------------------------------------------------------------
-editor_keymap("ahk_exe Code.exe")               	; VsCode
+vscode_keymap("ahk_exe Code.exe")               	; VsCode
+
 editor_keymap("ahk_exe Effidit.exe")            	; Effidit
 editor_keymap("ahk_exe Notepad3.exe")           	; Notepad3
 
@@ -25,12 +26,43 @@ im_keymap("ahk_exe TIM.exe")
 im_keymap("ahk_exe CUClient.exe")
 im_keymap("ahk_exe flomo卡片笔记.exe")
 
-terminal_keymap("ahk_exe WindowsTerminal.exe")	; Windows Terminal
+terminal_keymap("ahk_exe WindowsTerminal.exe")			; Windows Terminal
 
 HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"
 base_keymap()                                   	; 基础按键绑定
 base61_keymap()                                 	; 61键键盘基础按键绑定
 HotIfWinNotActive
+
+; ----------------------------------------------------------------------------
+;  editor 文本编辑器 按键模式
+; ----------------------------------------------------------------------------
+vscode_keymap(wintext) {
+    HotIfWinActive wintext
+
+    Hotkey ">^f", forward_char_and_find_file    	; C-x C-f 打开文件 / 光标右移
+
+    Hotkey "<!n", line_move_down				   	; 将本行与下一行调换 / 终端分组间向下切换
+    Hotkey "<!p", line_move_up					; 将本行与上一行调换 / 终端分组间向上切换
+    
+    Hotkey ">^s", iserach_and_save_buffer       	; C-x s 保存 / 搜索
+    Hotkey ">^r", isearch_backward              	; 搜索 反向
+
+    Hotkey ">^+.", tab_switch_forward           	; 切换 Tab 栏
+    Hotkey ">^+,", tab_switch_backward          	; 切换 Tab 栏  反向
+    
+    Hotkey ">^t", hotkey_c_terminal				; 终端面板基础组合键 激活面板
+    
+    Hotkey "k", kill_buffer						; 关闭当前文件
+    
+    Hotkey ">^!n", term_switch_backward       	; 终端面板切换 上一组
+    Hotkey ">^!p", term_switch_forward      		; 终端面板切换 下一组
+    
+    Hotkey "0", template_code_0
+    Hotkey "1", template_code_1
+    
+    Hotkey ">^z", (ThisHotkey) => WinMinimize(wintext)  ; 最小化
+    HotIfWinActive
+}
 
 ; ----------------------------------------------------------------------------
 ;  editor 文本编辑器 按键模式
@@ -59,11 +91,11 @@ editor_keymap(wintext) {
 explorer_keymap(wintext) {
     HotIfWinActive wintext
 
-    Hotkey "<![", dir_forward                   ; 前进
-    Hotkey "<!]", dir_backward                  ; 后退
-    HotKey "<!=", dir_up_level                  ; 上一级
-    HotKey "<!\", dir_up_level                  ; 上一级
-    HotKey ">^+d", dir_delete                   ; 彻底删除文件夹
+    Hotkey "<![", dir_forward                   	; 前进
+    Hotkey "<!]", dir_backward                  	; 后退
+    HotKey "<!=", dir_up_level                  	; 上一级
+    HotKey "<!\", dir_up_level                  	; 上一级
+    HotKey ">^+d", dir_delete                   	; 彻底删除文件夹
     HotIfWinActive
 }
 
@@ -179,7 +211,7 @@ base_keymap(){
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
 
-	; Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
+;	Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
 }
 
 ; ----------------------------------------------------------------------------
@@ -237,6 +269,8 @@ hide_tips(wintext) {
 is_pre_x := 0
 ; turns to be 1 when Ctrl-c is pressed
 is_pre_c := 0
+; turns to be 1 when Ctrl-t is pressed
+is_pre_t := 0
 ; turns to be 1 when ctrl-space is pressed
 is_pre_spc := 0
 
@@ -257,11 +291,33 @@ hotkey_c_c(ThisHotKey) {
     } 
 }
 
+hotkey_c_terminal(ThisHotkey) {
+	If is_pre_t {
+		Send "^+p"
+		Send "Terminal: Switch Active Terminal"
+		Send "{Enter}"
+		global is_pre_t := 0
+		hide_tips("C-t C-t")
+	}
+	Else If is_pre_c {
+		Send "^+p"
+		Send "Terminal: Focus Terminal"
+		Send "{Enter}"
+		global is_pre_c := 0
+		hide_tips("C-c C-t")
+	}
+	Else {
+		global is_pre_t := 1
+		show_tips("C-t")
+	}
+}
+
 quit(ThisHotKey) {
-	if (is_pre_x != 0 or is_pre_c != 0 or is_pre_spc != 0) {
+	if (is_pre_x != 0 or is_pre_c != 0 or is_pre_t != 0 or is_pre_spc != 0) {
 		global is_pre_spc := 0
 		global is_pre_x := 0
 		global is_pre_c := 0
+		global is_pre_t := 0
 		hide_tips("C-g")
 	}
 	else{
@@ -307,10 +363,19 @@ delete_backward_char() {
 }
 
 kill_line(ThisHotKey) {
-    Send "{ShiftDown}{END}{SHIFTUP}"
-    Sleep 50
-    Send "^x"
-    global is_pre_spc := 0
+	If is_pre_t {
+		Send "^+p"
+		Send "Terminal: Kill the Active Terminal Instance"
+		Send "{Enter}"
+		global is_pre_t := 0
+		hide_tips("C-t C-k")
+	}
+	Else {
+		Send "{ShiftDown}{END}{SHIFTUP}"
+		Sleep 50
+		Send "^x"
+		global is_pre_spc := 0
+	}
 }
 
 new_line(ThisHotKey) {
@@ -380,8 +445,17 @@ isearch_forward() {
 }
 
 isearch_backward(ThisHotKey) {
-    Send "^f"
-    global is_pre_spc := 0
+	If is_pre_c {
+		Send "^+p"
+		Send "View: Focus into Primary Side Bar"
+		Send "{Enter}"
+		global is_pre_c := 0
+		hide_tips("C-c C-r")
+    }
+    Else {
+		Send "^f"
+		global is_pre_spc := 0
+    }
 }
 
 iserach_and_save_buffer(ThisHotKey) {
@@ -455,10 +529,25 @@ save_buffer() {
     global is_pre_x := 0
 }
 
-kill_emacs()
-{
+kill_emacs() {
     Send "!{F4}"
     global is_pre_x := 0
+}
+
+kill_buffer(ThisHotKey) {
+	If is_pre_x {
+        Send "^w"
+        global is_pre_x := 0
+        hide_tips("C-x k")
+    }
+    Else {
+        if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
 }
 
 move_beginning_of_buffer(ThisHotKey) {
@@ -503,6 +592,13 @@ move_beginning_of_line(ThisHotKey) {
 move_end_of_line(ThisHotKey) {
     if is_pre_spc
         Send "+{END}"
+    Else if is_pre_c {
+		Send "^+p"
+		Send "View: Focus Active Editor Group"
+		Send "{Enter}"
+		global is_pre_c := 0
+		hide_tips("C-c C-e")
+    }
     Else
         Send "{END}"
 }
@@ -510,6 +606,13 @@ move_end_of_line(ThisHotKey) {
 next_line(ThisHotKey) {
     if is_pre_spc
         Send "+{Down}"
+    Else if is_pre_t{
+		Send "^+p"
+		Send "Terminal: Create New Terminal"
+		Send "{Enter}"
+		global is_pre_t := 0
+		hide_tips("C-t C-n")
+    }
     Else
         Send "{Down}"
 }
@@ -632,6 +735,24 @@ line_move_up(ThisHotKey){
 
 line_move_down(ThisHotKey){
     Send "!{Down}"
+}
+
+term_switch_backward(ThisHotKey){
+    Send "^{PgUp}"
+}
+
+term_switch_forward(ThisHotKey){
+    Send "^{PgDn}"
+}
+
+term_switch_active(ThisHotKey){
+	If is_pre_t {
+		Send "^+p"
+		Send "Terminal: Switch Active Terminal"
+		Send "{Enter}"
+		global is_pre_t := 0
+		hide_tips("C-t C-a")
+	}
 }
 
 tab_switch_forward(ThisHotKey) {
@@ -759,3 +880,33 @@ start_notepad(ThisHotKey) {
         }
     }
 }
+
+; 代码片段
+template_code_0(ThisHotKey) {
+	If is_pre_t {
+		Send "{#}------------------------------------------------------------------------------"
+		Send "{Enter}"
+		Send "{#}"
+		Send "{Enter}"
+		Send "{#}------------------------------------------------------------------------------"
+		Send "{Up}"
+		
+		global is_pre_t := 0
+        hide_tips("C-t 0")
+	}
+	Else {
+		Send ThisHotKey
+	}
+}
+
+template_code_1(ThisHotKey) {
+	If is_pre_t {
+		Send "if __name__ == `"__main__`":"
+		global is_pre_t := 0
+        hide_tips("C-t 0")
+	}
+	Else {
+		Send ThisHotKey
+	}
+}
+
