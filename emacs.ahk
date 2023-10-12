@@ -6,6 +6,8 @@ InstallKeybdHook
 #UseHook
 
 SetKeyDelay 0
+TraySetIcon ".\\emacs_01.ico"
+
 
 ; ----------------------------------------------------------------------------
 ;  应用按键绑定
@@ -21,6 +23,7 @@ office_keymap("ahk_exe EXCEL.EXE")              	; Excel
 explorer_keymap("ahk_exe explorer.exe")         	; 资源管理器
 explorer_keymap("ahk_exe XYplorer.exe")         	; Xyplorer
 
+tc_keymap("ahk_exe TOTALCMD64.EXE")				; Total Commander
 im_keymap("ahk_exe WeChat.exe")
 im_keymap("ahk_exe TIM.exe")
 im_keymap("ahk_exe CUClient.exe")
@@ -158,6 +161,16 @@ terminal_keymap(wintext){
     Hotkey "<!d", delete_word                   ; 删除 单词
     Hotkey ">^k", kill_line                     ; 删除到行尾
     HotIfWinActive
+}
+
+; ----------------------------------------------------------------------------
+;  total commander 按键绑定
+; ----------------------------------------------------------------------------
+tc_keymap(wintext) {
+    HotIfWinActive wintext
+    Hotkey ">^r", file_rename
+    Hotkey ">^f", dir_next
+    Hotkey ">^b", dir_previous
 }
 
 ; ----------------------------------------------------------------------------
@@ -776,7 +789,19 @@ dir_up_level(ThisHotKey) {
 }
 
 dir_delete(ThisHotKey){
-    send "+{Del}"
+    Send "+{Del}"
+}
+
+file_rename(ThisHotKey) {
+	Send "+{F6}"
+}
+
+dir_next(ThisHotKey) {
+	Send "{Enter}"
+}
+
+dir_previous(ThisHotKey) {
+	Send "{BS}"
 }
 
 ; 使用中文输入法重新输入选中文字
