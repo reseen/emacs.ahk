@@ -201,6 +201,7 @@ base_keymap(){
 
     Hotkey "j", start_calculator                ; C-c j 启动计算器
     Hotkey "n", start_notepad                   ; C-c n 启动记事本
+    Hotkey "t", window_top                      ; C-c t 窗口置顶/取消置顶
 
     Hotkey ">^+a", mark_and_beginning_of_line   ; 快速选择
     Hotkey ">^+e", mark_and_end_of_line
@@ -904,6 +905,32 @@ start_notepad(ThisHotKey) {
             Send StrUpper(ThisHotKey)
         }
     }
+}
+
+; 窗口置顶
+window_top(ThisHotKey) {
+	If is_pre_c {
+		global is_pre_c := 0
+		title := WinGetTitle("A")
+		WinSetAlwaysOnTop -1, title
+		ExStyle := WinGetExStyle(title)
+		if (ExStyle & 0x8) {
+			ToolTip "窗口置顶：" title
+			SetTimer () => ToolTip(), -3000
+		}
+		else{
+			ToolTip "取消置顶：" title
+			SetTimer () => ToolTip(), -1000
+		}
+	}
+	else{
+		if GetKeyState("CapsLock", "T") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+	}
 }
 
 ; 代码片段
