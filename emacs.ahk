@@ -30,7 +30,7 @@ im_keymap("ahk_exe WeChat.exe")
 im_keymap("ahk_exe TIM.exe")
 im_keymap("ahk_exe CUClient.exe")
 
-terminal_keymap("ahk_exe WindowsTerminal.exe")			; Windows Terminal
+terminal_keymap("ahk_exe WindowsTerminal.exe")	    ; Windows Terminal
 
 HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"
 base_keymap()                                   	; 基础按键绑定
@@ -46,7 +46,7 @@ vscode_keymap(wintext) {
     Hotkey ">^f", forward_char_and_find_file    	; C-x C-f 打开文件 / 光标右移
 
     Hotkey "<!n", line_move_down				   	; 将本行与下一行调换 / 终端分组间向下切换
-    Hotkey "<!p", line_move_up					; 将本行与上一行调换 / 终端分组间向上切换
+    Hotkey "<!p", line_move_up					    ; 将本行与上一行调换 / 终端分组间向上切换
     
     Hotkey ">^s", iserach_and_save_buffer       	; C-x s 保存 / 搜索
     Hotkey ">^r", isearch_backward              	; 搜索 反向
@@ -54,15 +54,16 @@ vscode_keymap(wintext) {
     Hotkey ">^+.", tab_switch_forward           	; 切换 Tab 栏
     Hotkey ">^+,", tab_switch_backward          	; 切换 Tab 栏  反向
     
-    Hotkey ">^t", hotkey_c_terminal				; 终端面板基础组合键 激活面板
+    Hotkey ">^t", hotkey_c_terminal				    ; 终端面板基础组合键 激活面板
     
-    Hotkey "k", kill_buffer						; 关闭当前文件
+    Hotkey "k", kill_buffer						    ; 关闭当前文件
     
-    Hotkey ">^!n", term_switch_backward       	; 终端面板切换 上一组
+    Hotkey ">^!n", term_switch_backward       	    ; 终端面板切换 上一组
     Hotkey ">^!p", term_switch_forward      		; 终端面板切换 下一组
     
     Hotkey "0", template_code_0
     Hotkey "1", template_code_1
+    Hotkey "9", template_code_9
     
     Hotkey ">^z", (ThisHotkey) => WinMinimize(wintext)  ; 最小化
     HotIfWinActive
@@ -956,6 +957,19 @@ template_code_1(ThisHotKey) {
 		Send "if __name__ == `"__main__`":"
 		global is_pre_t := 0
         hide_tips("C-t 0")
+	}
+	Else {
+		Send ThisHotKey
+	}
+}
+
+
+template_code_9(ThisHotKey) {
+	If is_pre_t {
+		Send "---------------------------------------------------------------------------------"
+		
+		global is_pre_t := 0
+        hide_tips("C-t 9")
 	}
 	Else {
 		Send ThisHotKey
