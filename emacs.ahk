@@ -32,13 +32,15 @@ im_keymap("ahk_exe CUClient.exe")
 
 terminal_keymap("ahk_exe WindowsTerminal.exe")	    ; Windows Terminal
 
+remote_keymap("ahk_exe esight.exe")                 ; 远见客户端
+
 HotIfWinNotActive  "ahk_exe WindowsTerminal.exe"
 base_keymap()                                   	; 基础按键绑定
 base61_keymap()                                 	; 61键键盘基础按键绑定
 HotIfWinNotActive
 
 ; ----------------------------------------------------------------------------
-;  editor 文本编辑器 按键模式
+;  vscode IDE 按键模式
 ; ----------------------------------------------------------------------------
 vscode_keymap(wintext) {
     HotIfWinActive wintext
@@ -46,7 +48,7 @@ vscode_keymap(wintext) {
     Hotkey ">^f", forward_char_and_find_file    	; C-x C-f 打开文件 / 光标右移
 
     Hotkey "<!n", line_move_down				   	; 将本行与下一行调换 / 终端分组间向下切换
-    Hotkey "<!p", line_move_up					    ; 将本行与上一行调换 / 终端分组间向上切换
+    Hotkey "<!p", line_move_up					; 将本行与上一行调换 / 终端分组间向上切换
     
     Hotkey ">^s", iserach_and_save_buffer       	; C-x s 保存 / 搜索
     Hotkey ">^r", isearch_backward              	; 搜索 反向
@@ -54,9 +56,9 @@ vscode_keymap(wintext) {
     Hotkey ">^+.", tab_switch_forward           	; 切换 Tab 栏
     Hotkey ">^+,", tab_switch_backward          	; 切换 Tab 栏  反向
     
-    Hotkey ">^t", hotkey_c_terminal				    ; 终端面板基础组合键 激活面板
+    Hotkey ">^t", hotkey_c_terminal				; 终端面板基础组合键 激活面板
     
-    Hotkey "k", kill_buffer						    ; 关闭当前文件
+    Hotkey "k", kill_buffer						; 关闭当前文件
     
     Hotkey ">^!n", term_switch_backward       	    ; 终端面板切换 上一组
     Hotkey ">^!p", term_switch_forward      		; 终端面板切换 下一组
@@ -98,9 +100,9 @@ explorer_keymap(wintext) {
 
     Hotkey "<![", dir_forward                   	; 前进
     Hotkey "<!]", dir_backward                  	; 后退
-    HotKey "<!=", dir_up_level                  	; 上一级
-    HotKey "<!\", dir_up_level                  	; 上一级
-    HotKey ">^+d", dir_delete                   	; 彻底删除文件夹
+    Hotkey "<!=", dir_up_level                  	; 上一级
+    Hotkey "<!\", dir_up_level                  	; 上一级
+    Hotkey ">^+d", dir_delete                   	; 彻底删除文件夹
     HotIfWinActive
 }
 
@@ -175,6 +177,18 @@ tc_keymap(wintext) {
     Hotkey ">^b", dir_previous
 }
 
+
+; ----------------------------------------------------------------------------
+;  remote 远程桌面客户端 按键模式
+; ----------------------------------------------------------------------------
+remote_keymap(wintext) {
+    HotIfWinActive wintext
+
+    Hotkey ">^z", (ThisHotkey) => WinMinimize(wintext)  ; 最小化
+
+    HotIfWinActive
+}
+
 ; ----------------------------------------------------------------------------
 ;  通用按键绑定，所有应用均生效
 ; ----------------------------------------------------------------------------
@@ -226,6 +240,9 @@ base_keymap(){
     Hotkey ">^o", open_line_down         		; 在下方新增一行
     Hotkey ">^j", new_line_and_indent           ; 换行并且缩进
     Hotkey ">^m", new_line                      ; 换行
+
+    Hotkey "c", switch_chinese_keyboard         ; 切换到中文键盘
+    Hotkey "e", switch_english_keyboard         ; 切换到英文键盘
     
 	Hotkey ">^+r", reenter_chinese              ; 中文输入法重新输入选中文字
 }
@@ -805,6 +822,48 @@ dir_next(ThisHotKey) {
 
 dir_previous(ThisHotKey) {
 	Send "{BS}"
+}
+
+switch_english_keyboard(ThisHotkey) {
+    If is_pre_c {
+        global is_pre_c := 0
+        hwnd := DllCall("GetForegroundWindow", "Ptr")                                       ; 获取当前前台窗口句柄
+        threadId := DllCall("GetWindowThreadProcessId", "Ptr", hwnd, "UInt*", 0, "UInt")        ; 获取与前台窗口相关联的线程 ID
+        hkl := DllCall("GetKeyboardLayout", "UInt", threadId, "Ptr")                         ; 获取当前键盘布局
+        if (hkl & 0xFFFF != 0x409) {
+            Send "#{Space}"
+        }
+        hide_tips("C-c e English-Keybord")
+    }
+    Else {
+        if GetKeyState("CapsLock", "E") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
+}
+
+switch_chinese_keyboard(ThisHotkey) {
+    If is_pre_c {
+        global is_pre_c := 0
+        hwnd := DllCall("GetForegroundWindow", "Ptr")                                       ; 获取当前前台窗口句柄
+        threadId := DllCall("GetWindowThreadProcessId", "Ptr", hwnd, "UInt*", 0, "UInt")        ; 获取与前台窗口相关联的线程 ID
+        hkl := DllCall("GetKeyboardLayout", "UInt", threadId, "Ptr")                         ; 获取当前键盘布局
+        if (hkl & 0xFFFF != 0x804) {
+            Send "#{Space}"
+        }
+        hide_tips("C-c c Chinese-Keybord")
+    }
+    Else {
+        if GetKeyState("CapsLock", "C") == 0 {
+            Send ThisHotKey
+        }
+        else{
+            Send StrUpper(ThisHotKey)
+        }
+    }
 }
 
 ; 使用中文输入法重新输入选中文字
